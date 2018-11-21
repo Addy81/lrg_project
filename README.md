@@ -6,4 +6,5 @@ LRG project: developed by Joseph Mahon and Adriana Toutoudaki during the Program
 - Identify exon locations
 - Where are the introns?
 - Identify differences in the transcript
+- Return a BED
 
