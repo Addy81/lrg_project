@@ -90,4 +90,31 @@ def get_exon_coords(root):
                     pass
     return exon_coords
     
-get_exon_coords(root)  
+#get_exon_coords(root)  
+
+def get_real_exon_coords(NM_number):
+    ''' Extract the exon coordinates that correspond to a specific transcript'''
+
+    real_coordinates = {}
+
+    for mapping in root.iter('mapping'):
+        if NM_number == mapping.attrib['coord_system']:
+            count = 0
+            for item in mapping.iter('mapping_span'): 
+                count +=1
+                real_coords = []
+                real_coords.append(int(item.attrib['other_start']))
+                real_coords.append(int(item.attrib['other_end']))
+                real_coordinates[count] = real_coords
+        elif NM_number != mapping.attrib['coord_system']:
+            print ('Sorry the transcript number you provided is invalid. Please try again')
+
+            
+
+    
+    for key in real_coordinates.keys():
+        print(key ,' : ',real_coordinates[key] )
+            
+
+
+get_real_exon_coords('NM_000257.5')
