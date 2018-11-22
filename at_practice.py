@@ -116,11 +116,38 @@ def get_real_exon_coords(NM_number):
     for key in real_coordinates.keys():
         print(key ,' : ',real_coordinates[key] )
         
-def get_chr_coordinates(genome_ref):
+def get_chr_coordinates(genome_ref,transcript):
+    
+    mapped_coordinates = {}
+    
     for mapping in root.iter('mapping'):
-        if genome_ref in mapping.attrib['coord_system']:
-            for mapping_span == mapping.iter('mapping_span'):
-                print(mapping_span.attrib['lrg_start'],mapping_span.attrib['lrg_end'],mapping_span.attrib['other_start'],mapping_span.attrib['other_end'])
+        if genome_ref == mapping.attrib['coord_system']:
+            for mapping_span in mapping.iter('mapping_span'):
+                mapped_start = int(mapping_span.attrib['other_start']) - 1
+                mapped_end = int(mapping_span.attrib['other_end']) - 1
+    
+        
+            
+        if transcript == mapping.attrib['coord_system']:
+            count = 0
+            for exon in mapping.iter('mapping_span'):
+                count += 1
+                coordinates = []
+                exon_start = mapped_start + int(exon.attrib['lrg_start'])
+                exon_end = mapped_start + int(exon.attrib['lrg_end'])
 
+                coordinates.append(exon_start)
+                coordinates.append(exon_end)
 
-get_chr_coordinates('GRCh37')
+                mapped_coordinates[count] = coordinates
+            '''
+            count +=1
+            exon_start = int(mapping_span.attrib['other_start']) + int(mapping_span.attrib['lrg_start'])
+            exon_end = int(mapping_span.attrib['other_start']) + int(mapping_span.attrib['lrg_end'])
+            print(mapping_span.attrib['lrg_start'],mapping_span.attrib['lrg_end'],mapping_span.attrib['other_start'],mapping_span.attrib['other_end'])
+            print(exon_start,exon_end)
+
+                '''
+    print (mapped_coordinates)
+
+get_chr_coordinates('GRCh37.p13','NM_000257.2')
