@@ -8,6 +8,7 @@
 #script to parse xml and pick out some elements
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+import re
 
 
 
@@ -115,5 +116,11 @@ def get_real_exon_coords(NM_number):
     for key in real_coordinates.keys():
         print(key ,' : ',real_coordinates[key] )
         
+def get_chr_coordinates(genome_ref):
+    for mapping in root.iter('mapping'):
+        if genome_ref in mapping.attrib['coord_system']:
+            for mapping_span == mapping.iter('mapping_span'):
+                print(mapping_span.attrib['lrg_start'],mapping_span.attrib['lrg_end'],mapping_span.attrib['other_start'],mapping_span.attrib['other_end'])
 
-get_real_exon_coords('NM_000257.5')
+
+get_chr_coordinates('GRCh37')
