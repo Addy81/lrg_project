@@ -31,6 +31,7 @@ def main(xml_file):
 	tree, root = get_tree_and_root(xml_file)
 	transcript_ids = get_transcript_ids(root)
 	transcript_choice = ui.ask_which_transcript(transcript_ids)
+	print(transcript_choice)
 	lrg_object = lrg_object_creator(root)
 	#bed_file = bedgen.generate_bed(lrg_object)
 
@@ -41,6 +42,7 @@ def get_tree_and_root(xml_file):
 	tree = ET.parse(xml_file)
 	root = tree.getroot()
 	return tree, root
+
 
 def get_transcript_ids(root):
 	transcripts = []

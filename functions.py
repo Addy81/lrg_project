@@ -33,7 +33,7 @@ def get_exon_coords(root):
                 
             
 
-    for key in exon_coords.keys():
-        print (key, exon_coords[key])
+    #for key in exon_coords.keys():
+    #    print (key, exon_coords[key])
 
 get_exon_coords(root)     

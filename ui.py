@@ -27,11 +27,10 @@ def ask_which_transcript(transcripts):
 		choice = input()
 		try:
 			choice_int = int(choice)
-			if choice_int >= 1 and choice_int <= len(transcripts)+1:
-
+			if choice_int >= 1 and choice_int <= len(transcripts):
 				validinput = True
 			else:
-				pass
+				print("Please enter a valid choice")
 		except:
 			print("Please enter a valid choice")
 
