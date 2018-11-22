@@ -114,7 +114,6 @@ def get_real_exon_coords(NM_number):
     
     for key in real_coordinates.keys():
         print(key ,' : ',real_coordinates[key] )
-            
-
+        
 
 get_real_exon_coords('NM_000257.5')
