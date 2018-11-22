@@ -14,6 +14,32 @@ def splashscreen(xml_file):
 	print("")
 	print("="*40)
 
+
+def ask_which_genome_build(genomebuilds):
+	print("")
+	print("    Which genome build would you like to use?")
+	counter = 1
+	for genomebuild in genomebuilds:
+		print("    " + str(counter)+ " " + genomebuild)
+		counter +=1		
+	print("")
+	validinput = False
+	while validinput == False:
+		choice = input()
+		try:
+			choice_int = int(choice)
+			if choice_int >= 1 and choice_int <= len(genomebuilds):
+				validinput = True
+			else:
+				print("Please enter a valid choice")
+		except:
+			print("Please enter a valid choice")
+	print("")
+	print("Genome Build choice: " + genomebuilds[choice_int-1])
+	print("")
+	return genomebuilds[choice_int-1]
+
+
 def ask_which_transcript(transcripts):
 	print("")
 	print("    Please select the desired transcript")
@@ -34,4 +60,7 @@ def ask_which_transcript(transcripts):
 		except:
 			print("Please enter a valid choice")
 
+	print("")
+	print("Transcript choice: " + transcripts[choice_int-1])
+	print("")
 	return transcripts[choice_int-1]
