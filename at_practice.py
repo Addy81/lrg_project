@@ -53,7 +53,7 @@ for exon in root.iter('exon'):
         current_exon = exon.attrib['label']
         print (exon.attrib['label'])
         #print (exon, exon.attrib)
-        for coord in root.iter('coordinates'):
+        for coord in exon.iter('coordinates'):
             if exon.attrib['label'] == current_exon:
                 coord_list = []
                 if coord.attrib['coord_system'] == LRG_code:
