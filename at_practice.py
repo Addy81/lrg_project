@@ -46,8 +46,8 @@ for x in root.iter('exon'):
         print (x.attrib)
  '''       
 
-exon_coords = {}
-
+exon_coords = defaultdict(list)
+'''
 for exon in root.iter('exon'):
     if len(exon.attrib) == 1:
         current_exon = exon.attrib['label']
@@ -67,17 +67,27 @@ for exon in root.iter('exon'):
             
                 coord_list.append(int(coord.attrib['start']))
                 coord_list.append(int(coord.attrib['end']))
-                print (coord_list)
-                exon_coords[exon.attrib['label']] = coord_list
+                exon_coords[exon.attrib['label']].append(coord_list)
             
-#for key in exon_coords.keys():
-#    print (key, exon_coords[key])
+for key in exon_coords.keys():
+    print (key, exon_coords[key])
             
-
-'''           
-'coord_system': 'LRG_384',
- 'start': '22976', 
- 'end': '23159', 
- 'strand': '1', 
- 'mapped_from': 'GRCh38'}
 '''
+
+def get_exon_coords(root):
+    ''' Pull LRG exon coordinates'''
+    exon_coords = {}
+
+    for exon in root.iter('exon'):
+        if len(exon.attrib) == 1:
+            for coord in exon.iter('coordinates'):
+                coord_list = []
+                if coord.attrib['coord_system'] == LRG_code:
+                    coord_list.append(int(coord.attrib['start']))
+                    coord_list.append(int(coord.attrib['end']))
+                    exon_coords[exon.attrib['label']] = coord_list
+                else:
+                    pass
+    return exon_coords
+    
+get_exon_coords(root)  

@@ -29,11 +29,6 @@ def get_exon_coords(root):
                     exon_coords[exon.attrib['label']] = coord_list
                 else:
                     pass
-            
-                
-            
-
-    for key in exon_coords.keys():
-        print (key, exon_coords[key])
-
+    return exon_coords
+    
 get_exon_coords(root)     
