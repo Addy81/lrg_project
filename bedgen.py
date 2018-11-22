@@ -17,11 +17,7 @@ def write_bed_file(filetowrite, bedheader, bedcontents):
 		with open(filetowrite, 'w', newline='') as csv_file:
 			writer = csv.writer(csv_file, delimiter="\t")
 			writer.writerow([bedheader, ""])
-
-
-
 			for line in bedcontents:
-				#print(line)
 				writer.writerow(line)
 		print("")
 		print("    BED file successfully written to " +  filetowrite)
