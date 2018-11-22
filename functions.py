@@ -8,14 +8,8 @@
 #script to parse xml and pick out some elements
 import xml.etree.ElementTree as ET 
 
-xml_file = 'LRG_384.xml'
 
-tree = ET.parse(xml_file)
-root = tree.getroot()
-
-LRG_code = xml_file.rstrip('.xml')
-
-def get_exon_coords(root):
+def get_exon_coords(root, lrg_id):
     ''' Pull LRG exon coordinates'''
     exon_coords = {}
 
@@ -23,7 +17,7 @@ def get_exon_coords(root):
         if len(exon.attrib) == 1:
             for coord in exon.iter('coordinates'):
                 coord_list = []
-                if coord.attrib['coord_system'] == LRG_code:
+                if coord.attrib['coord_system'] == lrg_id:
                     coord_list.append(int(coord.attrib['start']))
                     coord_list.append(int(coord.attrib['end']))
                     exon_coords[exon.attrib['label']] = coord_list
@@ -32,11 +26,10 @@ def get_exon_coords(root):
     return exon_coords
          
 
-def get_real_exon_coords(NM_number):
+def get_real_exon_coords(root, NM_number):
     ''' Extract the exon coordinates that correspond to a specific transcript'''
 
     nm_exon_coordinates = {}
-
     for mapping in root.iter('mapping'):
         if NM_number == mapping.attrib['coord_system']:
             count = 0
@@ -47,7 +40,6 @@ def get_real_exon_coords(NM_number):
                 exon_coord_list.append(int(item.attrib['other_end']))
                 nm_exon_coordinates[count] = exon_coord_list
         elif NM_number != mapping.attrib['coord_system']:
-            print ('Sorry the transcript number you provided is invalid. Please try again')
-    
+            pass
     return nm_exon_coordinates
 
