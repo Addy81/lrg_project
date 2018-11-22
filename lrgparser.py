@@ -9,6 +9,7 @@ import sys
 # generating functions. 'functions' contains the exon extraction functions.
 import bedgen
 import functions
+import ui
 
 # XML Related Imports
 import xml.etree.ElementTree as ET
@@ -26,19 +27,36 @@ class LRG_Object:
 
 def main(xml_file):
 	'''Main function'''
-	tree, root = get_tree_and_root(xmlfile)
+	ui.splashscreen(xml_file)
+	tree, root = get_tree_and_root(xml_file)
+	transcript_ids = get_transcript_ids(root)
+	transcript_choice = ui.ask_which_transcript(transcript_ids)
 	lrg_object = lrg_object_creator(root)
-	bed_file = bedgen.generate_bed(lrg_object)
+	#bed_file = bedgen.generate_bed(lrg_object)
 
 
-def get_tree_and_root(xmlfile):
+
+def get_tree_and_root(xml_file):
 	'''Returns the XML tree and root when provided with an XML file'''
 	tree = ET.parse(xml_file)
 	root = tree.getroot()
 	return tree, root
 
+def get_transcript_ids(root):
+	transcripts = []
+	for transcript_type in root.iter('annotation_set'):
+		source = transcript_type.attrib["type"]
+		if source == "ncbi" or source == "ensembl":
+			for transcript in transcript_type:
+				if transcript.tag == "mapping":
+					transcript_id = transcript.attrib["coord_system"]
+					transcripts.append(transcript_id)
+	return transcripts
 
-def lrg_object_creator(xml_file):
+
+
+
+def lrg_object_creator(root):
 	'''Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
 	'''
@@ -55,5 +73,5 @@ def lrg_object_creator(xml_file):
 
 
 
-in __name__ == "__main__":
+if __name__ == "__main__":
 	main('LRG_384.xml')
