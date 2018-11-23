@@ -1,7 +1,7 @@
 
 import os
 
-def splashscreen(xml_file):
+def splashscreen():
 	os.system("clear")
 	print("="*40)
 	print("")
@@ -9,10 +9,14 @@ def splashscreen(xml_file):
 	print("    Authors: A. Toutoudaki, J. Mahon")
 	print("")
 	print("="*40)
+
+
+def ask_what_gene():
 	print("")
-	print("    Parsing LRG XML File: " + xml_file)
+	print("    Please enter a HGNC Gene ID")
 	print("")
-	print("="*40)
+	selection = input()
+	return selection
 
 
 def ask_which_genome_build(genomebuilds):
