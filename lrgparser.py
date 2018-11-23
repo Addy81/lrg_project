@@ -10,6 +10,7 @@ import sys
 import bedgen
 import functions
 import ui
+import lrg_webservices
 
 # XML Related Imports
 import xml.etree.ElementTree as ET
@@ -27,33 +28,46 @@ class LRG_Object:
 
 def main(xml_file):
 	'''Main function'''
-	ui.splashscreen(xml_file)
-	tree, root = get_tree_and_root(xml_file)
-	lrg_id = xml_file.rstrip('.xml')
+	ui.splashscreen()
 
-	# Pick which Genome Build to use
-	genomebuilds = get_genome_builds(root)
-	genome_choice = ui.ask_which_genome_build(genomebuilds)
-
-	# Pick which transcript id to use (NCBI and Ensembl transcripts)
-	transcript_ids = get_transcript_ids(root)
-	transcript_choice = ui.ask_which_transcript(transcript_ids)
-
-	lrg_object = lrg_object_creator(root, lrg_id, transcript_choice)
-	#check_lrg_object_contents(lrg_object)
-
-	bed_filename = lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
-	bedheader = "Custom_Track_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
-	bedcontents = bedgen.create_bed_contents(lrg_object)
-	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
+	searchquery = ui.ask_what_gene()
+	searchresults = lrg_webservices.search_by_hgnc(searchquery)
+	if searchresults != None:
+		lrg_xml = lrg_webservices.search_by_lrg(searchresults)
+		root = get_tree_and_root_string(lrg_xml)
+		lrg_id = xml_file.rstrip('.xml')
 
 
 
-def get_tree_and_root(xml_file):
+		# Pick which Genome Build to use
+		genomebuilds = get_genome_builds(root)
+		genome_choice = ui.ask_which_genome_build(genomebuilds)
+
+		# Pick which transcript id to use (NCBI and Ensembl transcripts)
+		transcript_ids = get_transcript_ids(root)
+		transcript_choice = ui.ask_which_transcript(transcript_ids)
+
+		lrg_object = lrg_object_creator(root, lrg_id, transcript_choice)
+		#check_lrg_object_contents(lrg_object)
+
+		bed_filename = lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
+		bedheader = "Custom_Track_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
+		bedcontents = bedgen.create_bed_contents(lrg_object)
+		bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
+	else:
+		pass
+
+
+
+def get_tree_and_root_file(xml_file):
 	'''Returns the XML tree and root when provided with an XML file'''
 	tree = ET.parse(xml_file)
 	root = tree.getroot()
 	return tree, root
+
+def get_tree_and_root_string(xml_string):
+	root = ET.fromstring(xml_string)
+	return root
 
 def get_genome_builds(root):
 	genomebuilds = []
