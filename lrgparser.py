@@ -40,8 +40,12 @@ def main(xml_file):
 	transcript_choice = ui.ask_which_transcript(transcript_ids)
 
 	lrg_object = lrg_object_creator(root, lrg_id, transcript_choice)
-	check_lrg_object_contents(lrg_object)
-	#bed_file = bedgen.generate_bed(lrg_object)
+	#check_lrg_object_contents(lrg_object)
+
+	bed_filename = lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
+	bedheader = "Custom_Track_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
+	bedcontents = bedgen.create_bed_contents(lrg_object)
+	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
 
 
 

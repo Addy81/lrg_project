@@ -35,7 +35,7 @@ def ask_which_genome_build(genomebuilds):
 		except:
 			print("Please enter a valid choice")
 	print("")
-	print("Genome Build choice: " + genomebuilds[choice_int-1])
+	print("    Genome Build choice: " + genomebuilds[choice_int-1])
 	print("")
 	return genomebuilds[choice_int-1]
 
@@ -61,6 +61,6 @@ def ask_which_transcript(transcripts):
 			print("Please enter a valid choice")
 
 	print("")
-	print("Transcript choice: " + transcripts[choice_int-1])
+	print("    Transcript choice: " + transcripts[choice_int-1])
 	print("")
 	return transcripts[choice_int-1]
