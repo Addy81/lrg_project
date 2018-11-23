@@ -18,15 +18,17 @@ import xml.etree.ElementTree as ET
 
 class LRG_Object:
 	'''LRG object class containing LRG ID, HGNC ID etc'''
-	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords):
+	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome):
 		self.lrg_id = lrg_id
 		self.hgnc_id = hgnc_id
 		self.seq_source = seq_source
 		self.mol_type = mol_type
 		self.nm_exon_coords = nm_exon_coords
+		self.mapped_coords = mapped_coords
+		self.chromosome = chromosome
 
 
-def main(xml_file):
+def main():
 	'''Main function'''
 	ui.splashscreen()
 
@@ -35,9 +37,8 @@ def main(xml_file):
 	if searchresults != None:
 		lrg_xml = lrg_webservices.search_by_lrg(searchresults)
 		root = get_tree_and_root_string(lrg_xml)
-		lrg_id = xml_file.rstrip('.xml')
 
-
+		#lrg_id = xml_file.rstrip('.xml')
 
 		# Pick which Genome Build to use
 		genomebuilds = get_genome_builds(root)
@@ -47,16 +48,15 @@ def main(xml_file):
 		transcript_ids = get_transcript_ids(root)
 		transcript_choice = ui.ask_which_transcript(transcript_ids)
 
-		lrg_object = lrg_object_creator(root, lrg_id, transcript_choice)
+		lrg_object = lrg_object_creator(root, genome_choice, transcript_choice)
 		#check_lrg_object_contents(lrg_object)
 
-		bed_filename = lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
-		bedheader = "Custom_Track_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
+		bed_filename = searchquery.upper()+"_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
+		bedheader = "Custom_Track_"+searchquery.upper()+"_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
 		bedcontents = bedgen.create_bed_contents(lrg_object)
 		bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
 	else:
 		pass
-
 
 
 def get_tree_and_root_file(xml_file):
@@ -65,11 +65,15 @@ def get_tree_and_root_file(xml_file):
 	root = tree.getroot()
 	return tree, root
 
+
 def get_tree_and_root_string(xml_string):
+	'''Returns the XML tree and root when provided with an XML string'''
 	root = ET.fromstring(xml_string)
 	return root
 
+
 def get_genome_builds(root):
+	'''Returns the different possible genome builds, pulled from the LRG xml file'''
 	genomebuilds = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -80,7 +84,9 @@ def get_genome_builds(root):
 					genomebuilds.append(genomebuild)
 	return genomebuilds
 
+
 def get_transcript_ids(root):
+	'''Returns the different possible transcripts, pulled from the LRG xml file'''
 	transcripts = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -92,9 +98,7 @@ def get_transcript_ids(root):
 	return transcripts
 
 
-
-
-def lrg_object_creator(root, xml_id, transcript_choice):
+def lrg_object_creator(root, genome_choice, transcript_choice):
 	'''Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
 	'''
@@ -103,10 +107,19 @@ def lrg_object_creator(root, xml_id, transcript_choice):
 	seq_source = root.find('fixed_annotation/sequence_source').text
 	mol_type = root.find('fixed_annotation/mol_type').text
 	exon_coords = functions.get_exon_coords(root, lrg_id)
+
+	for transcript_type in root.iter('annotation_set'):
+		source = transcript_type.attrib["type"]
+		if source == "lrg":
+			for transcript in transcript_type:
+				if transcript.tag == "mapping":
+					chromosome = transcript.attrib["other_name"]
+					
 	nm_exon_coords = functions.get_real_exon_coords(root, transcript_choice)
+	mapped_coords = functions.get_chr_coordinates(root, genome_choice, transcript_choice)
 
 	# Create an LRG Object using the LRG_Object class
-	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords) 
+	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome) 
 	return lrg_object
 
 
@@ -116,12 +129,10 @@ def check_lrg_object_contents(lrg_object):
 	print("SEQ SOURCE: ", lrg_object.seq_source)
 	print("MOL TYPE  : ", lrg_object.mol_type)
 	print("")
-	for item in lrg_object.nm_exon_coords:
-		print(lrg_object.nm_exon_coords[item])
-
-
+	for item in lrg_object.mapped_coords:
+		print(lrg_object.mapped_coords[item])
 
 
 
 if __name__ == "__main__":
-	main('LRG_384.xml')
+	main()

@@ -4,10 +4,10 @@ import csv
 
 def create_bed_contents(lrg_object):
 	bedcontents = []
-	for item in lrg_object.nm_exon_coords:
-		chromosome = "chr"+str(item)
-		start = lrg_object.nm_exon_coords[item][0]
-		end = lrg_object.nm_exon_coords[item][1]
+	for item in lrg_object.mapped_coords:
+		chromosome = "chr"+lrg_object.chromosome
+		start = lrg_object.mapped_coords[item][0]
+		end = lrg_object.mapped_coords[item][1]
 		bedcontents.append([chromosome, start, end])
 	return bedcontents
 
