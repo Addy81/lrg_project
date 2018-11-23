@@ -124,7 +124,8 @@ def get_chr_coordinates(genome_ref,transcript):
         if genome_ref == mapping.attrib['coord_system']:
             for mapping_span in mapping.iter('mapping_span'):
                 mapped_start = int(mapping_span.attrib['other_start']) - 1
-                mapped_end = int(mapping_span.attrib['other_end']) - 1
+                mapped_end = int(mapping_span.attrib['other_end']) + 1
+                strand = mapping_span.attrib['strand']
     
         
             
@@ -133,11 +134,18 @@ def get_chr_coordinates(genome_ref,transcript):
             for exon in mapping.iter('mapping_span'):
                 count += 1
                 coordinates = []
-                exon_start = mapped_start + int(exon.attrib['lrg_start'])
-                exon_end = mapped_start + int(exon.attrib['lrg_end'])
 
-                coordinates.append(exon_start)
-                coordinates.append(exon_end)
+                if strand == '1':
+                    exon_start = mapped_start + int(exon.attrib['lrg_start'])
+                    exon_end = mapped_start + int(exon.attrib['lrg_end'])
+                    coordinates.append(exon_start)
+                    coordinates.append(exon_end)
+                elif strand == '-1':
+                    exon_start = mapped_end - int(exon.attrib['lrg_start'])
+                    exon_end = mapped_end - int(exon.attrib['lrg_end'])
+                    coordinates.append(exon_start)
+                    coordinates.append(exon_end)
+
 
                 mapped_coordinates[count] = coordinates
             '''
@@ -150,4 +158,4 @@ def get_chr_coordinates(genome_ref,transcript):
                 '''
     print (mapped_coordinates)
 
-get_chr_coordinates('GRCh37.p13','NM_000257.2')
+get_chr_coordinates('GRCh38.p12','NM_000257.2')
