@@ -35,3 +35,16 @@ newlrgobj = lrgobject(lrg_id, hgnc_id, seq_source, mol_type)
 
 
 print(newlrgobj.lrg_id)
+
+
+'''
+requirements
+code that functions
+whats the level of documentation
+readme
+documentation in code
+tests in code
+ISO requirements
+verified examples
+testset data
+'''
