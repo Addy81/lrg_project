@@ -5,7 +5,7 @@ def splashscreen():
 	os.system("clear")
 	print("="*40)
 	print("")
-	print("    LRG Parsing Program")
+	print("    LRG File Parsing Program")
 	print("    Authors: A. Toutoudaki, J. Mahon")
 	print("")
 	print("="*40)
