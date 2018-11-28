@@ -12,7 +12,7 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 	* [Flag / Flagless Mode](#flag--flagless-mode)
 	* [External Packages and Dependencies](#external-packages-and-dependencies)
 	* [Flowchart](#flowchart)
-
+* [Testing](#testing)
 
 
 ## Project Brief
@@ -59,9 +59,9 @@ Below is a flowchart showing the operational flow of the program. It is expected
 
 
 ## Testing
-Insert stuff about why testing is important
-Unit testing, integration testing, functional testing
-Test coverage - coverage.py
+Insert stuff about why testing is important  
+Unit testing, integration testing, functional testing  
+Test coverage - coverage.py  
 
 
 
@@ -76,10 +76,10 @@ Project Elements:
 - Return a BED
 
 ## Extra stuff to write about
-Not including information can have a negative effect
-Warning if not found
-Talk about code comments
-Talk about documentation
-Future maintenance
-Future direction - if had more time
-Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed
+Not including information can have a negative effect  
+Warning if not found  
+Talk about code comments  
+Talk about documentation  
+Future maintenance  
+Future direction - if had more time  
+Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
