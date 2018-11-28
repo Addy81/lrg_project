@@ -2,16 +2,17 @@
 Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in November 2018 at the University of Manchester
 
 ### Contents
-* [LRG Parsing Tool](#lrg-parsing-tool)
-  * [Project Brief](#project-brief)
-     * [User Requirements](#user-requirements)
-     * [Minimum Viable Product](#minimum-viable-product)
-     * [Included Functionality](#included-functionality)
-  * [Planning &amp; Design](#planning--design)
-     * [Software Safety](#software-safety)
-     * [Flag / Flagless Mode](#flag--flagless-mode)
-     * [External Packages and Dependencies](#external-packages-and-dependencies)
-     * [Flowchart](#flowchart)
+
+* [Project Brief](#project-brief)
+ * [User Requirements](#user-requirements)
+ * [Minimum Viable Product](#minimum-viable-product)
+ * [Included Functionality](#included-functionality)
+* [Planning &amp; Design](#planning--design)
+ * [Software Safety](#software-safety)
+ * [Flag / Flagless Mode](#flag--flagless-mode)
+ * [External Packages and Dependencies](#external-packages-and-dependencies)
+ * [Flowchart](#flowchart)
+
 
 
 ## Project Brief
@@ -32,19 +33,20 @@ As the tool is being designed to be used in a clinical environment, extra functi
 - User interface to allow simple use by staff with limited command line experience.
  
 
+
 ## Planning & Design
 As we will be developing tools in a clinical environment, ensuring that testing is performed and software is developed according to best practice guidelines is essential.
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
 HGNC Gene ID, LRG ID, Genome Version, Transcript
-This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the extended BED format (LINK TO FORMAT) and includes the additional field ‘name’, which is used as a descriptor for the row.
+This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row.
 
 ### Flag / Flagless Mode
 The tool has been written so that it can be run with a set of flags, which provide all of the information required to create a BED file, such as desired transcript and genome assembly version. It can also be run with no flags at all, which uses a terminal based user interface to collect the information. If a user provides flags which are incomplete, the user interface prompts the user for the missing items. The tool will not output a BED file unless these items are provided
 
 ### External Packages and Dependencies
-When planning the development, multiple python packages were investigated to fulfill particular functions. For example, lxml is a package which builds upon the functionality offered by the etree.ElementTree package. It provides some enhanced functionality and a slightly simpler interface, but as it is not included in the python standard library it requires installation. This is generally straightforward, but compatibility issues can arise when using different operating systems, such as Windows, where lxml cannot be installed solely using pip.
+When planning the development, multiple python packages were investigated to fulfill particular functions. For example, lxml is a package which builds upon the functionality offered by the etree.ElementTree package. It provides some enhanced functionality and a slightly simpler interface, but as it is not included in the python standard library it requires installation. This is generally straightforward, but compatibility issues can arise when using different operating systems, such as Windows, where lxml cannot be installed solely using `pip`.
 
 As the xml processing performed by this tool is simple, it was determined that using etree.ElementTree was sufficient and the compatibility and external package management overhead required for lxml was unnecessary.
 
