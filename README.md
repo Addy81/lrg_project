@@ -4,14 +4,14 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 ### Contents
 
 * [Project Brief](#project-brief)
- * [User Requirements](#user-requirements)
- * [Minimum Viable Product](#minimum-viable-product)
- * [Included Functionality](#included-functionality)
+	* [User Requirements](#user-requirements)
+	* [Minimum Viable Product](#minimum-viable-product)
+	* [Included Functionality](#included-functionality)
 * [Planning &amp; Design](#planning--design)
- * [Software Safety](#software-safety)
- * [Flag / Flagless Mode](#flag--flagless-mode)
- * [External Packages and Dependencies](#external-packages-and-dependencies)
- * [Flowchart](#flowchart)
+	* [Software Safety](#software-safety)
+	* [Flag / Flagless Mode](#flag--flagless-mode)
+	* [External Packages and Dependencies](#external-packages-and-dependencies)
+	* [Flowchart](#flowchart)
 
 
 
