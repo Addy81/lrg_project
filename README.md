@@ -35,7 +35,7 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-As we will be developing tools in a clinical environment, ensuring that testing is performed and software is developed according to best practice guidelines is essential.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety.
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
@@ -57,18 +57,29 @@ Below is a flowchart showing the operational flow of the program. It is expected
 
 
 
+
+## Testing
+Insert stuff about why testing is important
+Unit testing, integration testing, functional testing
+Test coverage - coverage.py
+
+
+
 -----------------------------MISC------------------------------------
 
-# lrg_project
-LRG project: 
-
-# Project Elements
+## Stuff chopped out of old readme.md, to shove back in somewhere
+Project Elements:
 - Inspect element from xml
 - Identify exon locations
 - Where are the introns?
 - Identify differences in the transcript
 - Return a BED
 
-
+## Extra stuff to write about
 Not including information can have a negative effect
 Warning if not found
+Talk about code comments
+Talk about documentation
+Future maintenance
+Future direction - if had more time
+Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed
