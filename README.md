@@ -81,26 +81,29 @@ Three flags are available to define the LRG to use. Only one of these should be 
 
 Short Flag | Long Flag | Description
  --- | --- | ---
-`-f` | `--file`   | Takes an LRG XML file as an argument (e.g LRG_384.xml)  
-`-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)  
-`-g` | `--gene`   | Takes an HGNC gene name as an argument (e.g MYH7)  
+`-f` | `--file`   | Takes an LRG XML file as an argument (e.g LRG_384.xml)
+`-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)
+`-g` | `--gene`  | Takes an HGNC gene name as an argument (e.g MYH7)
 
 
 Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference.  
-`-t` or `--transcript` Takes a transcript as an argument (e.g NM_000257.2)  
-`-r` or `--referencegenome` Takes a reference genome as an argument (e.g GRCh37.p13)  
+
+Short Flag | Long Flag | Description
+ --- | --- | ---
+`-t` | `--transcript` | Takes a transcript as an argument (e.g NM_000257.2)
+`-r` | `--referencegenome` |  Takes a reference genome as an argument (e.g GRCh37.p13)
 
 ### Examples
 1. When you know the gene name, but not the LRG ID and you don't have a file  
-   `python lrgparser.py -g MYH7`  
+   ```python lrgparser.py -g MYH7```
    The UI will prompt for the user to choose a genome version and transcript.  
 
 2. When you know the gene name, genome version and transcript you want  
-   `python lrgparser.py -g MYH7 -r GRCh37.p13 -t NM_000257.2`  
+   ```python lrgparser.py -g MYH7 -r GRCh37.p13 -t NM_000257.2```  
    As all necessary arguments have been provided, the UI does not run and the BED file is created with no user input  
 
 3. When you have an LRG XML file, know the genome version but do not know which transcripts are available  
-   `python lrgparser.py -f LRG_384.xml -r GRCh37.p13`  
+   ```python lrgparser.py -f LRG_384.xml -r GRCh37.p13``` 
    The UI will look at the XML file to find available transcripts and prompt the user to choose one.  
 
 -----------------------------MISC------------------------------------
