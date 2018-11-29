@@ -13,7 +13,7 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 	* [External Packages and Dependencies](#external-packages-and-dependencies)
 	* [Flowchart](#flowchart)
 * [Testing](#testing)
-
+* [Program Use](#program-use)
 
 ## Project Brief
 
@@ -66,7 +66,38 @@ Insert stuff about why testing is important
 Unit testing, integration testing, functional testing  
 Test coverage - coverage.py  
 
+## Program Use
+The program can be used with or without flag arguments.
+### Without Flags
+```python
+python lrgparser.py
+```
+As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*
+\**These are extracted from the LRG file which will be downloaded, no knowledge about available transcripts is required by the user.*
 
+### With Flags
+The program is flexible and can take multiple optional flags as arguments.
+Three flags are available to define the LRG to use. Only one of these should be provided:  
+`-f` or `--file` Takes an LRG XML file as an argument (e.g LRG_384.xml)  
+`-l` or `--lrgid` Takes an LRG ID as an argument (e.g LRG_384)  
+`-g` or `--gene` Takes an HGNC gene name as an argument (e.g MYH7)  
+
+Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference.  
+`-t` or `--transcript` Takes a transcript as an argument (e.g NM_000257.2)  
+`-r` or `--referencegenome` Takes a reference genome as an argument (e.g GRCh37.p13)  
+
+### Examples
+1. When you know the gene name, but not the LRG ID and you don't have a file  
+   `python lrgparser.py -g MYH7`  
+   The UI will prompt for the user to choose a genome version and transcript.  
+
+2. When you know the gene name, genome version and transcript you want  
+   `python lrgparser.py -g MYH7 -r GRCh37.p13 -t NM_000257.2`  
+   As all necessary arguments have been provided, the UI does not run and the BED file is created with no user input  
+
+3. When you have an LRG XML file, know the genome version but do not know which transcripts are available  
+   `python lrgparser.py -f LRG_384.xml -r GRCh37.p13`  
+   The UI will look at the XML file to find available transcripts and prompt the user to choose one.  
 
 -----------------------------MISC------------------------------------
 
@@ -87,5 +118,8 @@ Talk about documentation
 Talk about PEP8 and style guidelines  
 Future maintenance  
 Future direction - if had more time  
-Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed
+Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
 Make log files?  
+Include time and date?  
+Broken HGNC name in filename and header, accidentally made into HGNCID, needs reverting  
+ERROR HANDLING  

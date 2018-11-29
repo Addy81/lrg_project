@@ -31,43 +31,97 @@ class LRG_Object:
 		self.chromosome = chromosome
 
 
-def main(arguments):
+def main(args):
 	'''Main function. Runs the UI and handles user choices. Calls appropriate
 	external functions based on responses.
 	'''
-	ui.splashscreen()
-	searchquery = ui.ask_what_gene()
-	searchresults = lrg_webservices.search_by_hgnc(searchquery)
-	if searchresults != None:
-		lrg_xml = lrg_webservices.search_by_lrg(searchresults)
+	# If a file is provided, check whether it is valid
+	if args['file'] != None:
+		#TODO add some file checking stuff
+		# Obtain the root from the XML file
+		root = get_tree_and_root_file(args['file'])
+
+	# If no file is provided using the file flag, XML is obtained using
+	# the 'geneid' or 'lrgid' flag, whichever is provided
+	else:
+		# Obtain a Gene ID when no LRG or Gene ID given
+		if args['geneid'] == None and args['lrgid'] == None:
+			ui.splashscreen()
+			searchquery = ui.ask_what_gene()
+			args['geneid'] = searchquery
+		else:
+			pass
+
+		# Obtain an LRG ID using Gene ID, only if no LRG ID has been provided
+		if 	args['geneid'] != None and args['lrgid'] == None:
+			searchresults = lrg_webservices.search_by_hgnc(args['geneid'])
+			if searchresults != None:
+				args['lrgid'] =  searchresults # TODO does it always only return 1 result?
+			else:
+				pass
+		else:
+			pass
+
+		# At this point, the program has an LRG ID and can use this to obtain
+		# an XML from the LRG-sequence.org site
+		lrg_xml = lrg_webservices.search_by_lrg(args['lrgid'])
+		# Obtain the root from the XML string provided by the webservices
 		root = get_tree_and_root_string(lrg_xml)
 
-		#lrg_id = xml_file.rstrip('.xml')
 
-		# Pick which Genome Build to use
+	# At this point, whether a file, LRG ID or Gene ID has been provided, the
+	# program has an XML root, from which it can obtain genome build,
+	# transcript, exon location and mapping information
+
+	if args['referencegenome'] == None:
+		# Pick which Genome Build to use if none given
 		genomebuilds = get_genome_builds(root)
 		genome_choice = ui.ask_which_genome_build(genomebuilds)
-
-		# Pick which transcript id to use (NCBI and Ensembl transcripts)
-		transcript_ids = get_transcript_ids(root)
-		transcript_choice = ui.ask_which_transcript(transcript_ids)
-
-		lrg_object = lrg_object_creator(root, genome_choice, transcript_choice)
-		#check_lrg_object_contents(lrg_object)
-
-		bed_filename = searchquery.upper()+"_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice+".tsv"
-		bedheader = "Custom_Track_"+searchquery.upper()+"_"+lrg_object.lrg_id+"_"+transcript_choice+"_"+genome_choice
-		bedcontents = bedgen.create_bed_contents(lrg_object)
-		bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
+		args['referencegenome'] = genome_choice
 	else:
 		pass
+
+	if args['transcript'] == None:
+		# Pick which transcript id to use if none given
+		transcript_ids = get_transcript_ids(root)
+		transcript_choice = ui.ask_which_transcript(transcript_ids)
+		args['transcript'] = transcript_choice
+	else:
+		pass
+
+	# Create an LRG_Object, which contains LRG ID, HGNC ID, mapped exon 
+	# coordinates etc. This information is extracted from the root.
+	lrg_object = lrg_object_creator(root, 
+									args['referencegenome'],
+									args['transcript'])
+
+	# To create the BED file, the filename and header row are generated
+	bed_filename = "_".join([lrg_object.hgnc_id,
+							lrg_object.lrg_id,
+							args['transcript'],
+							args['referencegenome']]) + ".tsv"
+					
+	bedheader_name = "LRG_Parser_Custom_Track"
+	bedheader_desc = "_".join([lrg_object.hgnc_id,
+								lrg_object.lrg_id,
+								args['transcript'],
+								args['referencegenome']])
+
+	bedheader = [bedheader_name, bedheader_desc]
+
+	# Create the contents of the BED file. This will be a nested list  
+	# containing [Chromosome, start, end]
+	bedcontents = bedgen.create_bed_contents(lrg_object)
+
+	# Write these BED contents to disk
+	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
 
 
 def get_tree_and_root_file(xml_file):
 	'''Returns the XML tree and root when provided with an XML file'''
 	tree = ET.parse(xml_file)
 	root = tree.getroot()
-	return tree, root
+	return root
 
 
 def get_tree_and_root_string(xml_string):
@@ -146,7 +200,7 @@ def arg_collection():
 						'--file',
 						help="ExistingLRG XML File location",
 						type=str,
-						dest='filearg')
+						dest='file')
 	parser.add_argument('-g',
 						'--geneid',
 						help="Gene ID",
@@ -173,7 +227,7 @@ def arg_collection():
 						dest='transcript')
 	args = parser.parse_args()
 	arguments = {
-				'filearg': args.filearg,
+				'file': args.file,
 				'geneid': args.geneid,
 				'lrgid': args.lrgid,
 				'referencegenome': args.referencegenome,
@@ -187,3 +241,10 @@ if __name__ == "__main__":
 
 	arguments = arg_collection()
 	main(arguments)
+
+
+
+# REMOVED
+#lrg_id = xml_file.rstrip('.xml')
+#check_lrg_object_contents(lrg_object)
+
