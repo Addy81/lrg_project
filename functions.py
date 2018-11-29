@@ -81,3 +81,26 @@ def get_chr_coordinates(root, genome_choice, transcript_choice):
                 mapped_coordinates[count] = coordinates
             
     return mapped_coordinates
+
+def get_intron_coords(exon_coords):
+    ''' Calculate intron coordinates'''
+
+    intron_coords = {}
+
+    for key in exon_coords.keys():
+        #Stoping at the last exon as if exon number is n, intron number will be n-1
+        if (key+1) not in exon_coords.keys():
+            break
+        else:
+            #checks if gene is in foward strand
+            if (exon_coords[1][1] - exon_coords[1][0]) > 0:
+                intron_start = exon_coords[key][1] + 1 
+                intron_end = exon_coords[key+1][0] - 1
+                intron_coords[key] = [intron_start, intron_end]
+            #checks if gene is in reverse strand
+            elif (exon_coords[1][1] - exon_coords[1][0]) < 0:
+                intron_start = exon_coords[key][1] - 1 
+                intron_end = exon_coords[key+1][0] + 1
+                intron_coords[key] = [intron_start, intron_end]
+
+    return intron_coords

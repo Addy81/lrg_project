@@ -126,25 +126,29 @@ def get_real_exon_coords(NM_number):
     for key in real_coordinates.keys():
         print(key ,' : ',real_coordinates[key] )
         
-def get_chr_coordinates(genome_ref,transcript):
+def get_chr_coordinates(root, genome_choice, transcript_choice):
+    '''Calculates genomic coordinates based on the mapping information for different reference genomes and transcripts. '''
     
     mapped_coordinates = {}
     
+    #Iterates from the root of the xml tree to identify the mapping attributes
     for mapping in root.iter('mapping'):
-        if genome_ref == mapping.attrib['coord_system']:
+        #Checks the reference genome requested by the user and extracts the correct mapping start and end coordinates
+        if genome_choice == mapping.attrib['coord_system']:
             for mapping_span in mapping.iter('mapping_span'):
                 mapped_start = int(mapping_span.attrib['other_start']) - 1
                 mapped_end = int(mapping_span.attrib['other_end']) + 1
                 strand = mapping_span.attrib['strand']
-    
-        
-            
-        if transcript == mapping.attrib['coord_system']:
+
+        #Checks the transcript requested by the user and calculates the genomic coordinates accordingly    
+        if transcript_choice == mapping.attrib['coord_system']:
             count = 0
+            
             for exon in mapping.iter('mapping_span'):
                 count += 1
                 coordinates = []
 
+                # Option of whether the gene is on the forward or reverse strand
                 if strand == '1':
                     exon_start = mapped_start + int(exon.attrib['lrg_start'])
                     exon_end = mapped_start + int(exon.attrib['lrg_end'])
@@ -156,16 +160,35 @@ def get_chr_coordinates(genome_ref,transcript):
                     coordinates.append(exon_start)
                     coordinates.append(exon_end)
 
-
+                #Coordinates are stored in a dictionary with exon numbers as keys and start stop coordinates as values i.e. {1: [23904870, 23904829]}
                 mapped_coordinates[count] = coordinates
-            '''
-            count +=1
-            exon_start = int(mapping_span.attrib['other_start']) + int(mapping_span.attrib['lrg_start'])
-            exon_end = int(mapping_span.attrib['other_start']) + int(mapping_span.attrib['lrg_end'])
-            print(mapping_span.attrib['lrg_start'],mapping_span.attrib['lrg_end'],mapping_span.attrib['other_start'],mapping_span.attrib['other_end'])
-            print(exon_start,exon_end)
+            
+    return mapped_coordinates
 
-                '''
-    print (mapped_coordinates)
+x = get_chr_coordinates(root ,'GRCh38.p12','NM_000257.2')
+print(x)
 
-get_chr_coordinates('GRCh38.p12','NM_000257.2')
+def get_intron_coords(exon_coords):
+    ''' Calculate intron coordinates'''
+
+    intron_coords = {}
+
+    for key in exon_coords.keys():
+        #Stoping at the last exon as if exon number is n, intron number will be n-1
+        if (key+1) not in exon_coords.keys():
+            break
+        else:
+            #checks if gene is in foward strand
+            if (exon_coords[1][1] - exon_coords[1][0]) > 0:
+                intron_start = exon_coords[key][1] + 1 
+                intron_end = exon_coords[key+1][0] - 1
+                intron_coords[key] = [intron_start, intron_end]
+            #checks if gene is in reverse strand
+            elif (exon_coords[1][1] - exon_coords[1][0]) < 0:
+                intron_start = exon_coords[key][1] - 1 
+                intron_end = exon_coords[key+1][0] + 1
+                intron_coords[key] = [intron_start, intron_end]
+
+    return intron_coords
+
+print (get_intron_coords(get_chr_coordinates(root ,'GRCh38.p12','NM_000257.2')))
