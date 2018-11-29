@@ -78,9 +78,11 @@ As no arguments have been provided, the program loads the UI and prompts the use
 ### With Flags
 The program is flexible and can take multiple optional flags as arguments.
 Three flags are available to define the LRG to use. Only one of these should be provided:  
-`-f` or `--file` Takes an LRG XML file as an argument (e.g LRG_384.xml)  
-`-l` or `--lrgid` Takes an LRG ID as an argument (e.g LRG_384)  
-`-g` or `--gene` Takes an HGNC gene name as an argument (e.g MYH7)  
+Short Flag | Long Flag | Description
+ --- | --- | ---
+`-f` | `--file`   | Takes an LRG XML file as an argument (e.g LRG_384.xml)  
+`-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)  
+`-g` | `--gene`   | Takes an HGNC gene name as an argument (e.g MYH7)  
 
 Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference.  
 `-t` or `--transcript` Takes a transcript as an argument (e.g NM_000257.2)  
