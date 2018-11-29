@@ -16,7 +16,7 @@ def write_bed_file(filetowrite, bedheader, bedcontents):
 	try:
 		with open(filetowrite, 'w', newline='') as csv_file:
 			writer = csv.writer(csv_file, delimiter="\t")
-			writer.writerow([bedheader, ""])
+			writer.writerow(bedheader)
 			for line in bedcontents:
 				writer.writerow(line)
 		print("")
