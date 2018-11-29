@@ -39,7 +39,7 @@ Ensuring that  software is developed according to best practice guidelines and t
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
-HGNC Gene ID, LRG ID, Genome Version, Transcript
+HGNC Gene ID, LRG ID, Genome Version, Transcript.  
 This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row.
 
 ### Flag / Flagless Mode
@@ -79,10 +79,13 @@ Project Elements:
 - Return a BED
 
 ## Extra stuff to write about
+Mention ISO/UKAS conformance
 Not including information can have a negative effect  
 Warning if not found  
-Talk about code comments  
+Talk about code comments and docstrings  
 Talk about documentation  
+Talk about PEP8 and style guidelines  
 Future maintenance  
 Future direction - if had more time  
-Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
+Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed
+Make log files?  
