@@ -72,17 +72,19 @@ The program can be used with or without flag arguments.
 ```python
 python lrgparser.py
 ```
-As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*
+As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*.  
 \**These are extracted from the LRG file which will be downloaded, no knowledge about available transcripts is required by the user.*
 
 ### With Flags
 The program is flexible and can take multiple optional flags as arguments.
 Three flags are available to define the LRG to use. Only one of these should be provided:  
+
 Short Flag | Long Flag | Description
  --- | --- | ---
 `-f` | `--file`   | Takes an LRG XML file as an argument (e.g LRG_384.xml)  
 `-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)  
 `-g` | `--gene`   | Takes an HGNC gene name as an argument (e.g MYH7)  
+
 
 Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference.  
 `-t` or `--transcript` Takes a transcript as an argument (e.g NM_000257.2)  
