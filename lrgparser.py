@@ -5,12 +5,15 @@ import argparse
 import os
 import sys
 
-# Import of other local python scripts. 'bedgen' contains the BED file
-# generating functions. 'functions' contains the exon extraction functions.
-import bedgen
+# Import of local python scripts. 
+# bedgen contains the BED file generating functions
+import bedgen 
+# functions contains the exon extraction functions.
 import functions
-import ui
-import lrg_webservices
+# ui contains the terminal UI functions.  
+import ui 
+# lrg_webservices contains the terminal UI functions.  
+import lrg_webservices # Contains the 
 
 # XML Related Imports
 import xml.etree.ElementTree as ET
@@ -28,10 +31,11 @@ class LRG_Object:
 		self.chromosome = chromosome
 
 
-def main():
-	'''Main function'''
+def main(arguments):
+	'''Main function. Runs the UI and handles user choices. Calls appropriate
+	external functions based on responses.
+	'''
 	ui.splashscreen()
-
 	searchquery = ui.ask_what_gene()
 	searchresults = lrg_webservices.search_by_hgnc(searchquery)
 	if searchresults != None:
@@ -133,6 +137,53 @@ def check_lrg_object_contents(lrg_object):
 		print(lrg_object.mapped_coords[item])
 
 
+def arg_collection():
+	parser = argparse.ArgumentParser()
+	# Main Arguments: 
+	# Different routes to obtain an LRG XML file
+	# Either by providing a file, a HGNC gene ID or an LRG ID.
+	parser.add_argument('-f',
+						'--file',
+						help="ExistingLRG XML File location",
+						type=str,
+						dest='filearg')
+	parser.add_argument('-g',
+						'--geneid',
+						help="Gene ID",
+						type=str,
+						dest='geneid')
+	parser.add_argument('-l',
+						'--lrgid',
+						help="LRG ID",
+						type=str,
+						dest='lrgid')
+
+	# Supplimentary Arguments:
+	# Extra arguments necessary for automated BED file generation
+	# If not provided, the UI will take over and prompt the user
+	parser.add_argument('-r',
+						'--referencegenome',
+						help="Reference genome",
+						type=str,
+						dest='referencegenome')
+	parser.add_argument('-t',
+						'--transcript',
+						help="Transcript",
+						type=str,
+						dest='transcript')
+	args = parser.parse_args()
+	arguments = {
+				'filearg': args.filearg,
+				'geneid': args.geneid,
+				'lrgid': args.lrgid,
+				'referencegenome': args.referencegenome,
+				'transcript': args.transcript,
+				}
+	return arguments
+
+
 
 if __name__ == "__main__":
-	main()
+
+	arguments = arg_collection()
+	main(arguments)
