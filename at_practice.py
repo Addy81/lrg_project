@@ -8,11 +8,21 @@
 #script to parse xml and pick out some elements
 import xml.etree.ElementTree as ET
 from collections import defaultdict
+import argparse
 import re
+
+
+parser = argparse.ArgumentParser(description='Parse an LRG file and export exon coordinates for the requested reference genome in a BED format.')
+parser.add_argument('-g','--gene', help='Please provide an HGCN gene name')
+parser.add_argument('-l','--lrg', help='Please provide an LRG code')
+parser.add_argument('-f','--file', help='Please provide a file path')
+
+args = parser.parse_args()
 
 
 
 """
+
 parser = argparse.ArgumentParser(description='Assimilate low res HLA type data.')
 parser.add_argument('input', type = argparse.FileType(), help='input file .xlsx to be analysed')
 parser.add_argument('output', help='output file file name to be generated')
@@ -28,7 +38,7 @@ input_file = '/mnt/storage/home/toutoua/projects/tt/NIHR_Assimilator/NIHR_Assimi
 output_file = args.output
 """
 
-xml_file = 'LRG_384.xml'
+xml_file = args.file
 
 tree = ET.parse(xml_file)
 root = tree.getroot()
