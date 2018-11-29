@@ -95,7 +95,7 @@ Short Flag | Long Flag | Description
 
 ### Examples
 1. When you know the gene name, but not the LRG ID and you don't have a file  
-   ```python lrgparser.py -g MYH7``` 
+   ```python lrgparser.py -g MYH7```  
    The UI will prompt for the user to choose a genome version and transcript.  
 
 2. When you know the gene name, genome version and transcript you want  
