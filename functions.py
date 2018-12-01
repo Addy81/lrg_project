@@ -77,27 +77,28 @@ def get_chr_coordinates(root, genome_choice, transcript_choice):
                     coordinates.append(exon_start)
                     coordinates.append(exon_end)
 
-                #Coordinates are stored in a dictionary with exon numbers as keys and start stop coordinates as values i.e. {1: [23904870, 23904829]}
+                # Coordinates are stored in a dictionary with exon numbers as keys and start stop coordinates as values i.e. {1: [23904870, 23904829]}
                 mapped_coordinates[count] = coordinates
             
     return mapped_coordinates
 
+
 def get_intron_coords(exon_coords):
-    ''' Calculate intron coordinates'''
+    """ Calculate intron coordinates"""
 
     intron_coords = {}
 
     for key in exon_coords.keys():
-        #Stoping at the last exon as if exon number is n, intron number will be n-1
+        # Stopping at the last exon as if exon number is n, intron number will be n-1
         if (key+1) not in exon_coords.keys():
             break
         else:
-            #checks if gene is in foward strand
+            # checks if gene is in foward strand
             if (exon_coords[1][1] - exon_coords[1][0]) > 0:
                 intron_start = exon_coords[key][1] + 1 
                 intron_end = exon_coords[key+1][0] - 1
                 intron_coords[key] = [intron_start, intron_end]
-            #checks if gene is in reverse strand
+            # checks if gene is in reverse strand
             elif (exon_coords[1][1] - exon_coords[1][0]) < 0:
                 intron_start = exon_coords[key][1] - 1 
                 intron_end = exon_coords[key+1][0] + 1
@@ -105,6 +106,7 @@ def get_intron_coords(exon_coords):
 
     return intron_coords
 
+<<<<<<< HEAD
 
 def get_flanked_coords(exon_coords,flank=5):
     """ Provides adjuedted exon coordinates based on user input"""
@@ -118,3 +120,5 @@ def get_flanked_coords(exon_coords,flank=5):
             flanked_coords[k] = [(v[0] + flank), (v[1] - flank)]
 
     return flanked_coords
+=======
+>>>>>>> 7913e66e2877ca9e690ac208f7a7057e9d188093
