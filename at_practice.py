@@ -192,3 +192,22 @@ def get_intron_coords(exon_coords):
     return intron_coords
 
 print (get_intron_coords(get_chr_coordinates(root ,'GRCh38.p12','NM_000257.2')))
+
+
+def get_flanked_coords(exon_coords,flank=5):
+    """ Provides adjuedted exon coordinates based on user input"""
+
+    flanked_coords = {}
+
+    for k,v in exon_coords.items():
+        if (v[1]-v[0]) > 0:
+            flanked_coords[k] = [(v[0] - flank), (v[1] + flank)]
+        elif (v[1]-v[0]) < 0:
+            flanked_coords[k] = [(v[0] + flank), (v[1] - flank)]
+
+    return flanked_coords
+    
+
+print('---------------------------------------------------------')
+        
+print (get_flanked_coords(get_chr_coordinates(root ,'GRCh38.p12','NM_000257.2'), 10))
