@@ -43,7 +43,7 @@ def get_real_exon_coords(root, NM_number):
             pass
     return nm_exon_coordinates
 
-def get_chr_coordinates(root, genome_choice, transcript_choice):
+def get_exon_coordinates(root, genome_choice, transcript_choice):
     '''Calculates genomic coordinates based on the mapping information for different reference genomes and transcripts. '''
     
     mapped_coordinates = {}
@@ -106,7 +106,6 @@ def get_intron_coords(exon_coords):
 
     return intron_coords
 
-<<<<<<< HEAD
 
 def get_flanked_coords(exon_coords,flank=5):
     """ Provides adjuedted exon coordinates based on user input"""
@@ -120,5 +119,3 @@ def get_flanked_coords(exon_coords,flank=5):
             flanked_coords[k] = [(v[0] + flank), (v[1] - flank)]
 
     return flanked_coords
-=======
->>>>>>> 7913e66e2877ca9e690ac208f7a7057e9d188093
