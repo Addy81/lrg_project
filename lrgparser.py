@@ -88,6 +88,7 @@ def main(args):
 		args['transcript'] = transcript_choice
 	else:
 		pass
+	
 
 	# Create an LRG_Object, which contains LRG ID, HGNC ID, mapped exon 
 	# coordinates etc. This information is extracted from the root.
@@ -176,7 +177,7 @@ def lrg_object_creator(root, genome_choice, transcript_choice):
 	nm_exon_coords = functions.get_real_exon_coords(root, transcript_choice)
 	mapped_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
 	intron_coords = functions.get_intron_coords(mapped_coords)
-	flank_coords = functions.get_flanked_coords(mapped_coords,)
+	#flank_coords = functions.get_flanked_coords(mapped_coords,flank)
 
 	# Create an LRG Object using the LRG_Object class
 	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome) 
@@ -231,7 +232,7 @@ def arg_collection():
 						'--intron',
 						action='store_true', 
 						help="If present, outputs intron coordinates instead of exon coordinates")
-	parser.add_argument('-f',
+	parser.add_argument('-fl',
 						'--flank', 
 						type=int,
 						help="If present, output coordinates include flanking regions")
@@ -244,6 +245,8 @@ def arg_collection():
 				'lrgid': args.lrgid,
 				'referencegenome': args.referencegenome,
 				'transcript': args.transcript,
+				'flank': args.flank,
+				'intron':args.intron,
 				}
 
 
