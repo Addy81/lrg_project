@@ -35,6 +35,14 @@ def main(args):
 	'''Main function. Runs the UI and handles user choices. Calls appropriate
 	external functions based on responses.
 	'''
+	if (args['file'] == None and 
+		args['lrgid'] == None and 
+		args['geneid'] == None):
+		show_ui = True
+	else:
+		show_ui = False
+
+
 	# If a file is provided, check whether it is valid
 	if args['file'] != None:
 		#TODO add some file checking stuff
@@ -89,17 +97,46 @@ def main(args):
 	else:
 		pass
 
+
+	if args['flank'] == None:
+		
+		if show_ui == True:
+			args['flank'] = ui.ask_flank_size()
+		else:
+			args['flank'] = 0
+		pass
+	else:
+		pass
+	args['flank'] = int(args['flank'])
+
+	if args['introns'] == False:
+		if show_ui == True:
+			args['introns'] = ui.ask_include_introns()
+		else:
+			pass
+	else:
+		pass
+
+
+
+
+
+
 	# Create an LRG_Object, which contains LRG ID, HGNC ID, mapped exon 
 	# coordinates etc. This information is extracted from the root.
 	lrg_object = lrg_object_creator(root, 
 									args['referencegenome'],
-									args['transcript'])
+									args['transcript'],
+									args['introns'],
+									args['flank'])
 
 	# To create the BED file, the filename and header row are generated
 	bed_filename = "_".join([lrg_object.hgnc_id,
 							lrg_object.lrg_id,
 							args['transcript'],
-							args['referencegenome']]) + ".tsv"
+							args['referencegenome'],
+							"flank"+str(args['flank'])
+							]) + ".tsv"
 					
 	bedheader_name = "LRG_Parser_Custom_Track"
 	bedheader_desc = "_".join([lrg_object.hgnc_id,
@@ -111,7 +148,7 @@ def main(args):
 
 	# Create the contents of the BED file. This will be a nested list  
 	# containing [Chromosome, start, end]
-	bedcontents = bedgen.create_bed_contents(lrg_object)
+	bedcontents = bedgen.create_bed_contents(lrg_object, args['introns'])
 
 	# Write these BED contents to disk
 	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
@@ -156,7 +193,7 @@ def get_transcript_ids(root):
 	return transcripts
 
 
-def lrg_object_creator(root, genome_choice, transcript_choice):
+def lrg_object_creator(root, genome_choice, transcript_choice, intron_choice, flank):
 	'''Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
 	'''
@@ -228,7 +265,7 @@ def arg_collection():
 						type=str,
 						dest='transcript')
 	parser.add_argument('-i',
-						'--intron',
+						'--introns',
 						action='store_true', 
 						help="If present, outputs intron coordinates instead of exon coordinates")
 	parser.add_argument('-fl',
@@ -244,6 +281,8 @@ def arg_collection():
 				'lrgid': args.lrgid,
 				'referencegenome': args.referencegenome,
 				'transcript': args.transcript,
+				'flank': args.flank,
+				'introns': args.introns,
 				}
 
 
