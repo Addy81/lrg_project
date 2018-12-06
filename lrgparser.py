@@ -21,13 +21,13 @@ import xml.etree.ElementTree as ET
 
 class LRG_Object:
 	'''LRG object class containing LRG ID, HGNC ID etc'''
-	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome):
+	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, mapped_flanked_exon_coords, mapped_intron_coords, chromosome):
 		self.lrg_id = lrg_id
 		self.hgnc_id = hgnc_id
 		self.seq_source = seq_source
 		self.mol_type = mol_type
-		self.nm_exon_coords = nm_exon_coords
-		self.mapped_coords = mapped_coords
+		self.mapped_flanked_exon_coords = mapped_flanked_exon_coords
+		self.mapped_intron_coords = mapped_intron_coords
 		self.chromosome = chromosome
 
 
@@ -173,13 +173,13 @@ def lrg_object_creator(root, genome_choice, transcript_choice):
 				if transcript.tag == "mapping":
 					chromosome = transcript.attrib["other_name"]
 					
-	nm_exon_coords = functions.get_real_exon_coords(root, transcript_choice)
-	mapped_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
-	intron_coords = functions.get_intron_coords(mapped_coords)
-	flank_coords = functions.get_flanked_coords(mapped_coords,)
+	
+	mapped_exon_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
+	mapped_intron_coords = functions.get_intron_coords(mapped_exon_coords)
+	mapped_flanked_exon_coords = functions.get_flanked_coords(mapped_exon_coords, flank)
 
 	# Create an LRG Object using the LRG_Object class
-	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome) 
+	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, mapped_flanked_exon_coords, mapped_intron_coords, chromosome) 
 	return lrg_object
 
 
@@ -231,7 +231,7 @@ def arg_collection():
 						'--intron',
 						action='store_true', 
 						help="If present, outputs intron coordinates instead of exon coordinates")
-	parser.add_argument('-f',
+	parser.add_argument('-fl',
 						'--flank', 
 						type=int,
 						help="If present, output coordinates include flanking regions")

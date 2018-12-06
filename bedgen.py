@@ -4,7 +4,14 @@ import csv
 
 def create_bed_contents(lrg_object):
 	bedcontents = []
-	for item in lrg_object.mapped_coords:
+	# Add exon rows
+	for item in lrg_object.mapped_flanked_exon_coords:
+		chromosome = "chr"+lrg_object.chromosome
+		start = lrg_object.mapped_coords[item][0]
+		end = lrg_object.mapped_coords[item][1]
+		bedcontents.append([chromosome, start, end])
+		# Add intron rows
+	for item in lrg_object.mapped_intron_coords:
 		chromosome = "chr"+lrg_object.chromosome
 		start = lrg_object.mapped_coords[item][0]
 		end = lrg_object.mapped_coords[item][1]
