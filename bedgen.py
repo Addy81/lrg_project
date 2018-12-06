@@ -2,13 +2,33 @@
 
 import csv
 
-def create_bed_contents(lrg_object):
+def create_bed_contents(lrg_object, introns_choice):
 	bedcontents = []
-	for item in lrg_object.mapped_coords:
+	# Add exon rows
+	for item in lrg_object.mapped_flanked_exon_coords:
 		chromosome = "chr"+lrg_object.chromosome
-		start = lrg_object.mapped_coords[item][0]
-		end = lrg_object.mapped_coords[item][1]
-		bedcontents.append([chromosome, start, end])
+		start = lrg_object.mapped_flanked_exon_coords[item][0]
+		end = lrg_object.mapped_flanked_exon_coords[item][1]
+		label = "Exon_"+str(item)
+		if start > end:
+			start, end = end, start
+		else:
+			pass
+		bedcontents.append([chromosome, start, end, label])
+		# Add intron rows
+	if introns_choice == True:
+		for item in lrg_object.mapped_intron_coords:
+			chromosome = "chr"+lrg_object.chromosome
+			start = lrg_object.mapped_intron_coords[item][0]
+			end = lrg_object.mapped_intron_coords[item][1]
+			if start > end:
+				start, end = end, start
+			else:
+				pass
+			label = "Intron_"+str(item)
+			bedcontents.append([chromosome, start, end, label])
+	else:
+		pass
 	return bedcontents
 
 

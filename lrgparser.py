@@ -21,13 +21,13 @@ import xml.etree.ElementTree as ET
 
 class LRG_Object:
 	'''LRG object class containing LRG ID, HGNC ID etc'''
-	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome):
+	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, mapped_flanked_exon_coords, mapped_intron_coords, chromosome):
 		self.lrg_id = lrg_id
 		self.hgnc_id = hgnc_id
 		self.seq_source = seq_source
 		self.mol_type = mol_type
-		self.nm_exon_coords = nm_exon_coords
-		self.mapped_coords = mapped_coords
+		self.mapped_flanked_exon_coords = mapped_flanked_exon_coords
+		self.mapped_intron_coords = mapped_intron_coords
 		self.chromosome = chromosome
 
 
@@ -35,6 +35,14 @@ def main(args):
 	'''Main function. Runs the UI and handles user choices. Calls appropriate
 	external functions based on responses.
 	'''
+	if (args['file'] == None and 
+		args['lrgid'] == None and 
+		args['geneid'] == None):
+		show_ui = True
+	else:
+		show_ui = False
+
+
 	# If a file is provided, check whether it is valid
 	if args['file'] != None:
 		#TODO add some file checking stuff
@@ -90,17 +98,46 @@ def main(args):
 		pass
 	
 
+
+	if args['flank'] == None:
+		
+		if show_ui == True:
+			args['flank'] = ui.ask_flank_size()
+		else:
+			args['flank'] = 0
+		pass
+	else:
+		pass
+	args['flank'] = int(args['flank'])
+
+	if args['introns'] == False:
+		if show_ui == True:
+			args['introns'] = ui.ask_include_introns()
+		else:
+			pass
+	else:
+		pass
+
+
+
+
+
+
 	# Create an LRG_Object, which contains LRG ID, HGNC ID, mapped exon 
 	# coordinates etc. This information is extracted from the root.
 	lrg_object = lrg_object_creator(root, 
 									args['referencegenome'],
-									args['transcript'])
+									args['transcript'],
+									args['introns'],
+									args['flank'])
 
 	# To create the BED file, the filename and header row are generated
 	bed_filename = "_".join([lrg_object.hgnc_id,
 							lrg_object.lrg_id,
 							args['transcript'],
-							args['referencegenome']]) + ".tsv"
+							args['referencegenome'],
+							"flank"+str(args['flank'])
+							]) + ".tsv"
 					
 	bedheader_name = "LRG_Parser_Custom_Track"
 	bedheader_desc = "_".join([lrg_object.hgnc_id,
@@ -112,7 +149,7 @@ def main(args):
 
 	# Create the contents of the BED file. This will be a nested list  
 	# containing [Chromosome, start, end]
-	bedcontents = bedgen.create_bed_contents(lrg_object)
+	bedcontents = bedgen.create_bed_contents(lrg_object, args['introns'])
 
 	# Write these BED contents to disk
 	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
@@ -157,7 +194,7 @@ def get_transcript_ids(root):
 	return transcripts
 
 
-def lrg_object_creator(root, genome_choice, transcript_choice):
+def lrg_object_creator(root, genome_choice, transcript_choice, intron_choice, flank):
 	'''Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
 	'''
@@ -174,13 +211,15 @@ def lrg_object_creator(root, genome_choice, transcript_choice):
 				if transcript.tag == "mapping":
 					chromosome = transcript.attrib["other_name"]
 					
-	nm_exon_coords = functions.get_real_exon_coords(root, transcript_choice)
-	mapped_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
-	intron_coords = functions.get_intron_coords(mapped_coords)
-	#flank_coords = functions.get_flanked_coords(mapped_coords,flank)
+
+	
+	mapped_exon_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
+	mapped_intron_coords = functions.get_intron_coords(mapped_exon_coords)
+	mapped_flanked_exon_coords = functions.get_flanked_coords(mapped_exon_coords, flank)
+
 
 	# Create an LRG Object using the LRG_Object class
-	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, nm_exon_coords, mapped_coords, chromosome) 
+	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, mapped_flanked_exon_coords, mapped_intron_coords, chromosome) 
 	return lrg_object
 
 
@@ -229,7 +268,7 @@ def arg_collection():
 						type=str,
 						dest='transcript')
 	parser.add_argument('-i',
-						'--intron',
+						'--introns',
 						action='store_true', 
 						help="If present, outputs intron coordinates instead of exon coordinates")
 	parser.add_argument('-fl',
@@ -246,7 +285,7 @@ def arg_collection():
 				'referencegenome': args.referencegenome,
 				'transcript': args.transcript,
 				'flank': args.flank,
-				'intron':args.intron,
+				'introns': args.introns,
 				}
 
 
