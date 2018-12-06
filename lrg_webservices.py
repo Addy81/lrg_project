@@ -6,6 +6,10 @@ import lrgparser
 
 
 def search_by_hgnc(searchterm):
+	"""Searches the lrg-sequence database for the provided HGNC ID searchterm 
+	using the REST API. Returns a matching LRG ID extracted from the search
+	results XML file (Note: Not an LRG XML file)
+	"""
 	url = "https://www.ebi.ac.uk/ebisearch/ws/rest/lrg?query=name:"+searchterm
 	queryresults = urllib.request.urlopen(url)
 	xml_file = queryresults.read()
@@ -20,6 +24,9 @@ def search_by_hgnc(searchterm):
 
 
 def search_by_lrg(searchterm):
+	"""Searches the lrg-sequence database for the provided LRG ID searchterm 
+	using the REST API. Returns the matching LRG XML file.
+	"""
 	url = "http://ftp.ebi.ac.uk/pub/databases/lrgex/"+searchterm+".xml"
 	queryresults = urllib.request.urlopen(url)
 	xml_file = queryresults.read()
