@@ -74,9 +74,8 @@ def get_exon_coordinates(root, genome_choice, transcript_choice):
                 elif strand == '-1':
                     exon_start = mapped_end - int(exon.attrib['lrg_start'])
                     exon_end = mapped_end - int(exon.attrib['lrg_end'])
-                    # These are reversed, as this is the - strand
-                    coordinates.append(exon_end)
                     coordinates.append(exon_start)
+                    coordinates.append(exon_end)
                 # Coordinates are stored in a dictionary with exon numbers as keys and start stop coordinates as values i.e. {1: [23904870, 23904829]}
                 mapped_coordinates[count] = coordinates
             
