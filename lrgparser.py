@@ -96,6 +96,7 @@ def main(args):
 		args['transcript'] = transcript_choice
 	else:
 		pass
+	
 
 
 	if args['flank'] == None:
@@ -210,10 +211,12 @@ def lrg_object_creator(root, genome_choice, transcript_choice, intron_choice, fl
 				if transcript.tag == "mapping":
 					chromosome = transcript.attrib["other_name"]
 					
+
 	
 	mapped_exon_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
 	mapped_intron_coords = functions.get_intron_coords(mapped_exon_coords)
 	mapped_flanked_exon_coords = functions.get_flanked_coords(mapped_exon_coords, flank)
+
 
 	# Create an LRG Object using the LRG_Object class
 	lrg_object = LRG_Object(lrg_id, hgnc_id, seq_source, mol_type, mapped_flanked_exon_coords, mapped_intron_coords, chromosome) 
