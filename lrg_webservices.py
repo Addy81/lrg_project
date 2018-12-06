@@ -1,10 +1,6 @@
 
-
 import urllib.request
 import lrgparser
-
-# XML Related Imports
-import xml.etree.ElementTree as ET
 
 
 def search_by_hgnc(searchterm):
