@@ -68,3 +68,48 @@ def ask_which_transcript(transcripts):
 	print("    Transcript choice: " + transcripts[choice_int-1])
 	print("")
 	return transcripts[choice_int-1]
+
+
+def ask_include_introns():
+	print("")
+	print("    Would you like to include whole introns?")
+	print("")
+	print("     Y/N")
+	print("")
+	validinput = False
+	while validinput == False:
+		choice = input()
+		try:
+			if choice == "Y" or choice == "y":
+				choice = True
+				validinput = True
+			elif choice == "N" or choice == "n":
+				choice = False
+				validinput = True
+			else:
+				print("Please enter a valid choice")
+		except:
+			print("Please enter a valid choice")
+
+	return choice
+
+
+def ask_flank_size():
+	print("")
+	print("    Would you like to include flanking regions?")
+	print("")
+	print("    Enter a flanking length, e.g 10 for a 10bp flank")
+	print("")
+	validinput = False
+	while validinput == False:
+		choice = input()
+		try:
+			choice_int = int(choice)
+			if choice_int >= 0 and choice_int <5000:
+				validinput = True
+			else:
+				print("Please enter a valid choice")
+		except:
+			print("Please enter a valid choice")
+
+	return choice
