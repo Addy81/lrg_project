@@ -202,7 +202,6 @@ def lrg_object_creator(root, genome_choice, transcript_choice, intron_choice, fl
 	hgnc_id = root.find('fixed_annotation/hgnc_id').text
 	seq_source = root.find('fixed_annotation/sequence_source').text
 	mol_type = root.find('fixed_annotation/mol_type').text
-	exon_coords = functions.get_exon_coords(root, lrg_id)
 
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -213,7 +212,7 @@ def lrg_object_creator(root, genome_choice, transcript_choice, intron_choice, fl
 					
 
 	
-	mapped_exon_coords = functions.get_exon_coordinates(root, genome_choice, transcript_choice)
+	mapped_exon_coords = functions.get_exon_coords(root, genome_choice, transcript_choice)
 	mapped_intron_coords = functions.get_intron_coords(mapped_exon_coords)
 	mapped_flanked_exon_coords = functions.get_flanked_coords(mapped_exon_coords, flank)
 

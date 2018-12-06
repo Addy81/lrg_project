@@ -9,7 +9,7 @@
 import xml.etree.ElementTree as ET 
 
 
-def get_exon_coordinates(root, genome_choice, transcript_choice):
+def get_exon_coords(root, genome_choice, transcript_choice):
     '''Calculates genomic coordinates based on the mapping information for different reference genomes and transcripts. '''
     
     mapped_coordinates = {}
