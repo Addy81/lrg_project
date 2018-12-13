@@ -132,3 +132,4 @@ Broken HGNC name in filename and header, accidentally made into HGNCID, needs re
 ERROR HANDLING  
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
+windows compatibility - fwd/back slashes (eg in tests) - swap out?
