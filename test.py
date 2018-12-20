@@ -154,7 +154,7 @@ class UITests(TestCase):
 		"""Checks that the splashscreen correctly returns. Functions without
 		a return statement will return None if completed successfully.
 		"""
-		self.assertEqual(ui.splashscreen(True), None)
+		self.assertEqual(ui.splashscreen(), None)
 
 	@patch('ui.input', return_value='MYH7')
 	def test_ask_what_gene(self, input):
