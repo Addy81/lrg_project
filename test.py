@@ -149,7 +149,8 @@ class UITests(TestCase):
 		"""
 		self.assertEqual(ui.determine_if_show_ui(self.args), False)
 
-	def test_splashscreen(self):
+	@patch('ui.os.system', return_value=None)
+	def test_splashscreen(self, systemreplace):
 		"""Checks that the splashscreen correctly returns. Functions without
 		a return statement will return None if completed successfully.
 		"""
@@ -162,7 +163,7 @@ class UITests(TestCase):
 		"""
 		self.assertEqual(ui.ask_what_gene(), "MYH7")
 
-	@patch('ui.input', return_value="1")
+	@patch('ui.input', side_effect=["badinput", "10", "1"])
 	def test_ask_which_genome_build(self, input):
 		"""Check that the ask_which_genome() function correctly returns the 
 		string that the	user enters.
