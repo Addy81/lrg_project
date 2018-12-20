@@ -84,5 +84,27 @@ class LRGParserTests(unittest.TestCase):
 		self.assertEqual(transcripts, expected_transcripts)		
 
 
+	def test_lrg_object_creator(self):
+		"""Tests that an 'lrg_object' is created properly when using the
+		lrg_object_creator function and LRG_Object class
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		flank = 0
+		lrg_object = lrgp.lrg_object_creator(root,
+										genome_choice,
+										transcript_choice,
+										flank)
+		self.assertEqual(lrg_object.lrg_id, 'LRG_384')
+		self.assertEqual(lrg_object.hgnc_id, '7577')
+		self.assertEqual(lrg_object.seq_source, 'NG_007884.1')
+		self.assertEqual(lrg_object.mol_type, 'dna')
+		self.assertEqual(lrg_object.chromosome, '14')
+		self.assertEqual(lrg_object.mapped_flanked_exon_coords.get(1), [23904870, 23904829])
+		self.assertEqual(lrg_object.mapped_flanked_exon_coords.get(40), [23882080, 23881947])
+
 if __name__ == '__main__':
 	unittest.main()
