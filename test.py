@@ -64,9 +64,13 @@ class LRGParserTests(TestCase):
 		"""Tests that a string passed to the get_tree_and_root_string
 		function returns a root object with a single root tag - "lrg"
 		"""
-		lrg_xml = ws.search_by_lrg("LRG_384")
-		root = lrgp.get_tree_and_root_string(lrg_xml)
-		self.assertEqual(root.tag, "lrg")
+		try:
+			lrg_xml = ws.search_by_lrg("LRG_384")
+			root = lrgp.get_tree_and_root_string(lrg_xml)
+			self.assertEqual(root.tag, "lrg")
+		except Exception as e:
+			self.fail("Error querying the LRG site:", e)
+
 
 	def test_get_genome_builds(self):
 		"""Tests that the correct genome build numbers are extracted from
@@ -167,7 +171,20 @@ class UITests(TestCase):
 		"""
 		availablebuilds = ['GRCh37.p13', 'GRCh38.p12']
 		self.assertEqual(ui.ask_which_genome_build(availablebuilds),
-													 'GRCh37.p13')
+													 "GRCh37.p13")
+
+	@patch('ui.input', return_value="1")
+	def test_ask_which_transcript(self, input):
+		"""Check that the ask_which_transcript() function correctly returns 
+		the string that the	user enters. User input to input() is simulated 
+		using unittest.mock
+		"""
+		availabletranscripts = ["NM_000257.2", 
+								"NM_000257.4",
+								"ENST00000355349.3"]
+		self.assertEqual(ui.ask_which_transcript(availabletranscripts),
+													 "NM_000257.2")
+
 
 
 if __name__ == '__main__':
