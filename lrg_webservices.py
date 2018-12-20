@@ -19,7 +19,6 @@ def search_by_hgnc(searchterm):
 	except:
 		print("No results for that search term")
 		lrg_id = None
-
 	return lrg_id
 
 
