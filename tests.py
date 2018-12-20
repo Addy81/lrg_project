@@ -71,7 +71,17 @@ class LRGParserTests(unittest.TestCase):
 		self.assertEqual(genomebuilds, expected_genomebuilds)
 
 	def test_get_transcript_ids(self):
-
+		"""Tests that the correct transcript IDs are extracted from
+		an LRG xml file
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		transcripts = lrgp.get_transcript_ids(root)
+		expected_transcripts = ['NM_000257.2',
+								'NM_000257.3',
+								'ENST00000355349.3']
+		self.assertEqual(transcripts, expected_transcripts)		
 
 
 if __name__ == '__main__':
