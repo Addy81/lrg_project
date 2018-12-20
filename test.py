@@ -185,7 +185,13 @@ class UITests(TestCase):
 		self.assertEqual(ui.ask_which_transcript(availabletranscripts),
 													 "NM_000257.2")
 
-
+	@patch('ui.input', return_value="y")
+	def test_ask_include_introns(self, input):
+		"""Check that the ask_which_transcript() function correctly returns 
+		the string that the	user enters. User input to input() is simulated 
+		using unittest.mock
+		"""
+		self.assertEqual(ui.ask_include_introns(), True)
 
 if __name__ == '__main__':
 	unittest.main(buffer=True)
