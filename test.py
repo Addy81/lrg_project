@@ -153,16 +153,21 @@ class UITests(TestCase):
 
 	@patch('ui.input', return_value='MYH7')
 	def test_ask_what_gene(self, input):
-		"""Check that the function correctly returns the string that the
-		user enters. User input to input() is simulated using unittest.mock
+		"""Check that the ask_what_gene() function correctly returns the
+		string that the	user enters. User input to input() is simulated using
+		unittest.mock
 		"""
-		# Redirect any stdout to a StringIO so it's not displayed in the test
-		capturedOutput = io.StringIO()
-		sys.stdout = capturedOutput
 		self.assertEqual(ui.ask_what_gene(), "MYH7")
-		# Reset stdout to default
-		sys.stdout = sys.__stdout__
 
+	@patch('ui.input', return_value="1")
+	def test_ask_which_genome_build(self, input):
+		"""Check that the ask_which_genome() function correctly returns the 
+		string that the	user enters. User input to input() is simulated using
+		unittest.mock
+		"""
+		availablebuilds = ['GRCh37.p13', 'GRCh38.p12']
+		self.assertEqual(ui.ask_which_genome_build(availablebuilds),
+													 'GRCh37.p13')
 
 
 if __name__ == '__main__':
