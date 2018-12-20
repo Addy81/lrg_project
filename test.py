@@ -183,13 +183,20 @@ class UITests(TestCase):
 													 "NM_000257.2")
 
 	@patch('ui.input', return_value="y")
-	def test_ask_include_introns(self, input):
+	def test_ask_include_introns_yes(self, input):
 		"""Check that the ask_which_transcript() function correctly returns 
 		the string that the	user enters.
 		"""
 		self.assertEqual(ui.ask_include_introns(), True)
 
-	@patch('ui.input', return_value="150")
+	@patch('ui.input', return_value="n")
+	def test_ask_include_introns_no(self, input):
+		"""Check that the ask_which_transcript() function correctly returns 
+		the string that the	user enters.
+		"""
+		self.assertEqual(ui.ask_include_introns(), False)
+
+	@patch('ui.input', side_effect=["badinput", "100000", "150"])
 	def test_ask_flank_size(self, input):
 		"""Check that the ask_flank_size() function correctly returns 
 		the string that the	user enters.
