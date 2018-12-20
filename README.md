@@ -77,6 +77,8 @@ As no arguments have been provided, the program loads the UI and prompts the use
 
 ### With Flags
 The program is flexible and can take multiple optional flags as arguments.
+
+#### Main Arguments
 Three flags are available to define the LRG to use. Only one of these should be provided:  
 
 Short Flag | Long Flag | Description
@@ -85,13 +87,21 @@ Short Flag | Long Flag | Description
 `-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)
 `-g` | `--gene`  | Takes an HGNC gene name as an argument (e.g MYH7)
 
-
-Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference.  
+#### Supplimentary Arguments
+Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference. If these are provided along with one of the flags from above, BED file generation will be completely automated.
 
 Short Flag | Long Flag | Description
  --- | --- | ---
 `-t` | `--transcript` | Takes a transcript as an argument (e.g NM_000257.2)
 `-r` | `--referencegenome` |  Takes a reference genome as an argument (e.g GRCh37.p13)
+
+#### Other Arguments
+These are other optional arguments which are not required for automated BED generation, but they provide functionality that may be useful.
+
+Short Flag | Long Flag | Description
+ --- | --- | ---
+`-i` | `--introns` | If this flag is present, intronic regions will be included
+`-fl` | `--flank` |  Takes a flank size in bases (Minimum 0, Maximum 5000)
 
 ### Examples
 1. When you know the gene name, but not the LRG ID and you don't have a file  
@@ -100,11 +110,18 @@ Short Flag | Long Flag | Description
 
 2. When you know the gene name, genome version and transcript you want  
    ```python lrgparser.py -g MYH7 -r GRCh37.p13 -t NM_000257.2```  
-   As all necessary arguments have been provided, the UI does not run and the BED file is created with no user input  
-
+   As all necessary arguments for fully automated BED file generation have been provided. The UI will not run and the BED file is created with no user input  
 3. When you have an LRG XML file, know the genome version but do not know which transcripts are available  
    ```python lrgparser.py -f LRG_384.xml -r GRCh37.p13```  
-   The UI will look at the XML file to find available transcripts and prompt the user to choose one.  
+   The program will look at the XML file to find available transcripts and display the UI to prompt the user to choose one.  
+
+4. When you know the gene name and transcript, and you want a flanking region of 200 bases on each region 
+   ```python lrgparser.py -g MYH7 -t NM_000257.2 -fl 200```  
+   The program will download the appropriate LRG XML file, parse it to find available genome versions and then display the UI to prompt the user to choose one.
+
+ 5. When you only know the LRG ID, but want the whole gene (both exonic and intronic regions)
+   ```python lrgparser.py -l LRG_384 -i```  
+   The program will download the appropriate LRG XML file, parse it to find available genome versions and transcripts. The UI will then prompt the user for their preference.
 
 -----------------------------MISC------------------------------------
 
@@ -133,3 +150,5 @@ ERROR HANDLING
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
 windows compatibility - fwd/back slashes (eg in tests) - swap out?
+If LRG_384 passed as arg, doesn;t ask for flanking region or whole introns
+Change maximum flank size to greater than 5000?
