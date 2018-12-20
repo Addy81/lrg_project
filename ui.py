@@ -92,16 +92,13 @@ def ask_include_introns():
 	validinput = False
 	while validinput == False:
 		choice = input()
-		try:
-			if choice == "Y" or choice == "y":
-				choice = True
-				validinput = True
-			elif choice == "N" or choice == "n":
-				choice = False
-				validinput = True
-			else:
-				print("Please enter a valid choice")
-		except:
+		if choice == "Y" or choice == "y":
+			choice = True
+			validinput = True
+		elif choice == "N" or choice == "n":
+			choice = False
+			validinput = True
+		else:
 			print("Please enter a valid choice")
 
 	return choice
