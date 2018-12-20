@@ -57,7 +57,7 @@ As the xml processing performed by this tool is simple, it was determined that u
 This choice does not mean that use of external packages should be discouraged, just that their use or non-use should be thoroughly investigated and justified.
 
 ### Modularity
-The code has been separated into modules in distinct python files, each containing related functions (BED functions, UI functions, exon coordinate functions and web API functions. They are imported into the main LRG_parser.py file and functions within them are invoked by referencing `module.function_name()`.  This creates an uncluttered working environment, gives context to the use of particular functions, and modularity of code allows easy reuse in other projects.
+The code has been separated into modules in distinct python files, each containing related functions (BED functions, UI functions, exon coordinate functions and web API functions. They are imported into the main LRG_parser.py file and functions within them are invoked by referencing `module.function_name()`.  This creates an uncluttered working environment, gives context to the use of particular functions, and modularity of code allows easy reuse in other projects. All functions perform single, distinct operations, meaning that tests can identify issues on a granular level.
 
 ### Flowchart
 Below is a flowchart showing the operational flow of the program. It is expected that this can be used by future developers or maintainers.
@@ -66,9 +66,12 @@ Below is a flowchart showing the operational flow of the program. It is expected
 
 
 ## Testing
-Insert stuff about why testing is important  
+The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module.
+
+To check coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%. Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of unwanted changes. Changes in one part of the codebase may break or change how code works elsewhere. Without tests these changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
+ 
 Unit testing, integration testing, functional testing  
-Test coverage - coverage.py  
+
 
 ## Program Use
 The program can be used with or without flag arguments.
