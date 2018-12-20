@@ -171,10 +171,11 @@ class UITests(TestCase):
 		self.assertEqual(ui.ask_which_genome_build(availablebuilds),
 													 "GRCh37.p13")
 
-	@patch('ui.input', return_value="1")
+	@patch('ui.input', side_effect=["badinput", "10", "1"])
 	def test_ask_which_transcript(self, input):
-		"""Check that the ask_which_transcript() function correctly returns 
-		the string that the	user enters. 
+		"""Check that the ask_which_transcript() function correctly handles 
+		invalid input (string then number choice that is too large)
+		followed by a valid transcript. 
 		"""
 		availabletranscripts = ["NM_000257.2", 
 								"NM_000257.4",
