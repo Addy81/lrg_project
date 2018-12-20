@@ -1,5 +1,8 @@
 
 import os
+import io
+import sys
+import unittest
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -148,6 +151,17 @@ class UITests(TestCase):
 		"""
 		self.assertEqual(ui.splashscreen(True), None)
 
+	@patch('ui.input', return_value='MYH7')
+	def test_ask_what_gene(self, input):
+		"""Check that the function correctly returns the string that the
+		user enters. User input to input() is simulated using unittest.mock
+		"""
+		# Redirect any stdout to a StringIO so it's not displayed in the test
+		capturedOutput = io.StringIO()
+		sys.stdout = capturedOutput
+		self.assertEqual(ui.ask_what_gene(), "MYH7")
+		# Reset stdout to default
+		sys.stdout = sys.__stdout__
 
 
 
