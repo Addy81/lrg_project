@@ -224,7 +224,7 @@ def lrg_object_creator(root, genome_choice, transcript_choice,
 							chromosome) 
 	return lrg_object
 
-def arg_collection():
+def arg_collection(arguments):
 	"""Perfoms the inital collection of arguments when the program starts"""
 	parser = argparse.ArgumentParser()
 	# Main Arguments: 
@@ -267,7 +267,7 @@ def arg_collection():
 						help="If present, exon coords include flanking regions")
 
 
-	args = parser.parse_args()
+	args = parser.parse_args(arguments)
 	arguments = {
 				'file': args.file,
 				'geneid': args.geneid,
@@ -283,7 +283,7 @@ def arg_collection():
 
 if __name__ == "__main__":
 	# Get all the arguments that have been provided
-	arguments = arg_collection()
+	arguments = arg_collection(sys.argv[1:])
 	# Run the main program
 	main(arguments)
 
