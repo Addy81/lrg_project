@@ -115,7 +115,6 @@ def main(args):
 	lrg_object = lrg_object_creator(root, 
 									args['referencegenome'],
 									args['transcript'],
-									args['introns'],
 									args['flank'])
 
 	# BED file filename creation
@@ -187,7 +186,7 @@ def get_transcript_ids(root):
 
 
 def lrg_object_creator(root, genome_choice, transcript_choice, 
-						intron_choice, flank):
+						flank):
 	"""Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
 	"""
