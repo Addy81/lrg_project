@@ -21,6 +21,10 @@ class WebServicesTests(unittest.TestCase):
 		"""Checks that the LRG ID returned by the LRG website is correct """
 		self.assertEqual(ws.search_by_hgnc("MYH7"), "LRG_384")
 
+	def test_invalid_hgnc_search(self):
+		"""Checks that the LRG ID returned by the LRG website is correct """
+		self.assertEqual(ws.search_by_hgnc("invalid_hgnc"), None)
+
 	def test_lrg_xml_file(self):
 		"""Checks that the LRG file returned by the LRG website has the 
 		correct ID 
@@ -116,4 +120,4 @@ class LRGParserTests(unittest.TestCase):
 
 
 if __name__ == '__main__':
-	unittest.main()
+	unittest.main(buffer=True)
