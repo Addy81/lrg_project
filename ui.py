@@ -1,6 +1,19 @@
 
 import os
 
+
+def determine_if_show_ui(args):
+	"""Determines whether the ui should be shown, based on the arguments
+	provided
+	"""
+	if (args['file'] == None and 
+		args['lrgid'] == None and 
+		args['geneid'] == None):
+		show_ui = True
+	else:
+		show_ui = False
+	return show_ui
+
 def splashscreen():
 	os.system("clear")
 	print("="*40)
@@ -9,7 +22,6 @@ def splashscreen():
 	print("    Authors: A. Toutoudaki, J. Mahon")
 	print("")
 	print("="*40)
-
 
 def ask_what_gene():
 	print("")

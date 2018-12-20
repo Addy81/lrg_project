@@ -36,13 +36,8 @@ def main(args):
 	"""Main function. Runs the UI and handles user choices. Calls appropriate
 	external functions based on responses.
 	"""
-	if (args['file'] == None and 
-		args['lrgid'] == None and 
-		args['geneid'] == None):
-		show_ui = True
-	else:
-		show_ui = False
 
+	show_ui = ui.determine_if_show_ui(args)
 
 	# If a file is provided, check whether it is valid
 	if args['file'] != None:
