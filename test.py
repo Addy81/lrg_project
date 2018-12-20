@@ -191,7 +191,7 @@ class UITests(TestCase):
 
 	@patch('ui.input', side_effect=["badinput", "y"])
 	def test_ask_include_introns_invalid(self, input):
-		"""Check that the ask_which_transcript() function correctly handles 
+		"""Check that the ask_include_introns() function correctly handles 
 		invalid input followed by valid input
 		"""
 		self.assertEqual(ui.ask_include_introns(), True)
