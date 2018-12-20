@@ -184,22 +184,30 @@ class UITests(TestCase):
 
 	@patch('ui.input', return_value="y")
 	def test_ask_include_introns_yes(self, input):
-		"""Check that the ask_which_transcript() function correctly returns 
-		the string that the	user enters.
+		"""Check that the ask_include_introns() function correctly returns 
+		True when chosen
+		"""
+		self.assertEqual(ui.ask_include_introns(), True)
+
+	@patch('ui.input', return_value="y")
+	def test_ask_include_introns_invalid(self, input):
+		"""Check that the ask_which_transcript() function correctly handles 
+		invalid input followed by valid input
 		"""
 		self.assertEqual(ui.ask_include_introns(), True)
 
 	@patch('ui.input', return_value="n")
 	def test_ask_include_introns_no(self, input):
-		"""Check that the ask_which_transcript() function correctly returns 
-		the string that the	user enters.
+		"""Check that the ask_include_introns() function correctly returns 
+		False when chosen
 		"""
 		self.assertEqual(ui.ask_include_introns(), False)
 
 	@patch('ui.input', side_effect=["badinput", "100000", "150"])
 	def test_ask_flank_size(self, input):
-		"""Check that the ask_flank_size() function correctly returns 
-		the string that the	user enters.
+		"""Check that the ask_flank_size() function correctly handles
+		invalid input (string and then an int over the max allowed) 
+		followed by returning a valid input value when provided (150) 
 		"""
 		self.assertEqual(ui.ask_flank_size(), "150")
 
