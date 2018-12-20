@@ -20,7 +20,7 @@ import xml.etree.ElementTree as ET
 
 
 class LRG_Object:
-	'''LRG object class containing LRG ID, HGNC ID etc'''
+	"""LRG object class containing LRG ID, HGNC ID etc"""
 	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, 
 				mapped_flanked_exon_coords, mapped_intron_coords, chromosome):
 		self.lrg_id = lrg_id
@@ -33,9 +33,9 @@ class LRG_Object:
 
 
 def main(args):
-	'''Main function. Runs the UI and handles user choices. Calls appropriate
+	"""Main function. Runs the UI and handles user choices. Calls appropriate
 	external functions based on responses.
-	'''
+	"""
 	if (args['file'] == None and 
 		args['lrgid'] == None and 
 		args['geneid'] == None):
@@ -144,22 +144,22 @@ def main(args):
 
 
 def get_tree_and_root_file(xml_file):
-	'''Returns the XML tree and root when provided with an XML file'''
+	"""Returns the XML tree and root when provided with an XML file"""
 	tree = ET.parse(xml_file)
 	root = tree.getroot()
 	return root
 
 
 def get_tree_and_root_string(xml_string):
-	'''Returns the XML tree and root when provided with an XML string'''
+	"""Returns the XML tree and root when provided with an XML string"""
 	root = ET.fromstring(xml_string)
 	return root
 
 
 def get_genome_builds(root):
-	'''Returns the different possible genome builds extracted from the LRG 
-	xml file
-	'''
+	"""Returns the different possible genome builds extracted from the LRG 
+	xml file.
+	"""
 	genomebuilds = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -172,9 +172,9 @@ def get_genome_builds(root):
 
 
 def get_transcript_ids(root):
-	'''Returns the different possible transcripts extracted from the LRG 
+	"""Returns the different possible transcripts extracted from the LRG 
 	xml file
-	'''
+	"""
 	transcripts = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -188,9 +188,9 @@ def get_transcript_ids(root):
 
 def lrg_object_creator(root, genome_choice, transcript_choice, 
 						intron_choice, flank):
-	'''Returns an LRG object when passed an LRG root. Object contains 
+	"""Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
-	'''
+	"""
 	lrg_id = root.find('fixed_annotation/id').text
 	hgnc_id = root.find('fixed_annotation/hgnc_id').text
 	seq_source = root.find('fixed_annotation/sequence_source').text
