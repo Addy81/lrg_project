@@ -14,8 +14,9 @@ def determine_if_show_ui(args):
 		show_ui = False
 	return show_ui
 
-def splashscreen():
-	os.system("clear")
+def splashscreen(testing=False):
+	if testing == False:
+		os.system("clear")
 	print("="*40)
 	print("")
 	print("    LRG File Parsing Program")
