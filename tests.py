@@ -41,7 +41,6 @@ class LRGParserTests(unittest.TestCase):
 		self.this_directory_path = os.path.dirname(__file__)
 		self.xml_path_relative = "testfiles/LRG_384.xml"
 		self.xml_path_full = self.this_directory_path + self.xml_path_relative
-		self.xml_root = 
 
 	def test_get_tree_and_root_file(self):
 		"""Tests that a file passed to the get_tree_and_root_file 
@@ -71,7 +70,7 @@ class LRGParserTests(unittest.TestCase):
 		expected_genomebuilds = ['GRCh37.p13', 'GRCh38.p12']
 		self.assertEqual(genomebuilds, expected_genomebuilds)
 
-
+	def test_get_transcript_ids(self):
 
 
 
