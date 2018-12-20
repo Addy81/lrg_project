@@ -4,6 +4,7 @@ import unittest
 
 import lrg_webservices as ws
 import lrgparser as lrgp
+import ui as ui
 import xml.etree.ElementTree as ET
 
 
@@ -117,6 +118,35 @@ class LRGParserTests(unittest.TestCase):
 		"""
 		arguments = lrgp.arg_collection(['-l LRG_384'])
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
+
+
+class UITests(unittest.TestCase):
+	"""Tests designed to test the functions contained within the
+	ui.py file.
+	"""
+
+	def setUp(self):
+		self.args_none = {'file': None, 'geneid': None, 'lrgid': None}
+		self.args = {'file': "test", 'geneid': "7577", 'lrgid': "LRG_384"}
+
+	def test_determine_if_show_ui_true(self):
+		"""Check that the UI will be shown if no file, geneid or lrgid is
+		provided
+		"""
+		self.assertEqual(ui.determine_if_show_ui(self.args_none), True)
+
+	def test_determine_if_show_ui_false(self):
+		"""Check that the UI will not be shown if a file, geneid or lrgid is
+		provided
+		"""
+		self.assertEqual(ui.determine_if_show_ui(self.args), False)
+
+	def test_splashscreen(self):
+		"""Checks that the splashscreen correctly returns. Functions without
+		a return statement will return None if completed successfully.
+		"""
+		self.assertEqual(ui.splashscreen(True), None)
+
 
 
 if __name__ == '__main__':
