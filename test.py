@@ -1,6 +1,7 @@
 
 import os
-import unittest
+from unittest import TestCase
+from unittest.mock import patch
 
 import lrg_webservices as ws
 import lrgparser as lrgp
@@ -8,7 +9,7 @@ import ui as ui
 import xml.etree.ElementTree as ET
 
 
-class WebServicesTests(unittest.TestCase):
+class WebServicesTests(TestCase):
 	"""Tests designed to test the functions contained within the
 	lrg_webservices.py file.
 	"""
@@ -37,7 +38,7 @@ class WebServicesTests(unittest.TestCase):
 
 
 
-class LRGParserTests(unittest.TestCase):
+class LRGParserTests(TestCase):
 	"""Tests designed to test the functions contained within the
 	lrgparser.py file.
 	"""
@@ -120,7 +121,7 @@ class LRGParserTests(unittest.TestCase):
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
 
-class UITests(unittest.TestCase):
+class UITests(TestCase):
 	"""Tests designed to test the functions contained within the
 	ui.py file.
 	"""
@@ -146,6 +147,7 @@ class UITests(unittest.TestCase):
 		a return statement will return None if completed successfully.
 		"""
 		self.assertEqual(ui.splashscreen(True), None)
+
 
 
 
