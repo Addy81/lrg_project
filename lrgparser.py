@@ -224,18 +224,6 @@ def lrg_object_creator(root, genome_choice, transcript_choice,
 							chromosome) 
 	return lrg_object
 
-
-def check_lrg_object_contents(lrg_object):
-	"""Can be used to check what is present in an lrg_object"""
-	print("LRG ID    : ", lrg_object.lrg_id)
-	print("HGNC ID   : ", lrg_object.hgnc_id)
-	print("SEQ SOURCE: ", lrg_object.seq_source)
-	print("MOL TYPE  : ", lrg_object.mol_type)
-	print("")
-	for item in lrg_object.mapped_flanked_exon_coords:
-		print(lrg_object.mapped_flanked_exon_coords[item])
-
-
 def arg_collection():
 	"""Perfoms the inital collection of arguments when the program starts"""
 	parser = argparse.ArgumentParser()
