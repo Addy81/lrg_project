@@ -130,7 +130,7 @@ class LRGParserTests(TestCase):
 
 class UITests(TestCase):
 	"""Tests designed to test the functions contained within the
-	ui.py file.
+	ui.py file. User input with input() is simulated using unittest.mock
 	"""
 
 	def setUp(self):
@@ -158,16 +158,14 @@ class UITests(TestCase):
 	@patch('ui.input', return_value='MYH7')
 	def test_ask_what_gene(self, input):
 		"""Check that the ask_what_gene() function correctly returns the
-		string that the	user enters. User input to input() is simulated using
-		unittest.mock
+		string that the	user enters.
 		"""
 		self.assertEqual(ui.ask_what_gene(), "MYH7")
 
 	@patch('ui.input', return_value="1")
 	def test_ask_which_genome_build(self, input):
 		"""Check that the ask_which_genome() function correctly returns the 
-		string that the	user enters. User input to input() is simulated using
-		unittest.mock
+		string that the	user enters.
 		"""
 		availablebuilds = ['GRCh37.p13', 'GRCh38.p12']
 		self.assertEqual(ui.ask_which_genome_build(availablebuilds),
@@ -176,8 +174,7 @@ class UITests(TestCase):
 	@patch('ui.input', return_value="1")
 	def test_ask_which_transcript(self, input):
 		"""Check that the ask_which_transcript() function correctly returns 
-		the string that the	user enters. User input to input() is simulated 
-		using unittest.mock
+		the string that the	user enters. 
 		"""
 		availabletranscripts = ["NM_000257.2", 
 								"NM_000257.4",
@@ -188,10 +185,18 @@ class UITests(TestCase):
 	@patch('ui.input', return_value="y")
 	def test_ask_include_introns(self, input):
 		"""Check that the ask_which_transcript() function correctly returns 
-		the string that the	user enters. User input to input() is simulated 
-		using unittest.mock
+		the string that the	user enters.
 		"""
 		self.assertEqual(ui.ask_include_introns(), True)
+
+	@patch('ui.input', return_value="150")
+	def test_ask_flank_size(self, input):
+		"""Check that the ask_flank_size() function correctly returns 
+		the string that the	user enters.
+		"""
+		self.assertEqual(ui.ask_flank_size(), "150")
+
+
 
 if __name__ == '__main__':
 	unittest.main(buffer=True)
