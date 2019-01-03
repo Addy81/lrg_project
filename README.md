@@ -37,6 +37,9 @@ As the tool is being designed to be used in a clinical environment, extra functi
 ## Planning & Design
 Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation.
 
+### Documentation
+Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
+
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
 HGNC Gene ID, LRG ID, Genome Version, Transcript.  
@@ -146,8 +149,7 @@ Project Elements:
 
 ## Extra stuff to write about
 Not including information can have a negative effect  
-Warning if not found  
-Talk about code comments and docstrings  
+Warning if not found    
 Talk about documentation  
 Talk about PEP8 and style guidelines  
 Future maintenance  
