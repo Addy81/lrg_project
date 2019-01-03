@@ -18,9 +18,7 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 ## Project Brief
 
 ### User Requirements
-The user requirements were provided during the practical sessions, and were flexible, with the main aim to be able to parse LRG XML files, and extract exon locations from these. 
-
-### Minimum Viable Product
+The user requirements provided during the practical sessions were that the application could:
 - Parse LRG XML files
 - Extract Exon locations
 
