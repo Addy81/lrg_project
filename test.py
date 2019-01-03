@@ -55,8 +55,7 @@ class LRGParserTests(TestCase):
 		"""Tests that a file passed to the get_tree_and_root_file 
 		function returns a root object with a single root tag - "lrg"
 		"""
-		test_xml = open(self.xml_path_full)
-		root = lrgp.get_tree_and_root_file(test_xml)
+		root = lrgp.get_tree_and_root_file(str(self.xml_path_full))
 		test_xml.close()
 		self.assertEqual(root.tag, "lrg")
 
