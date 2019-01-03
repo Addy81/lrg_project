@@ -17,8 +17,8 @@ def search_by_hgnc(searchterm):
 	try:
 		lrg_id = root.find('entries/entry').attrib['id']
 	except:
-		print("No results for that search term")
-		lrg_id = None
+		print("No LRG results for the search term: " + searchterm)
+		raise SystemExit
 	return lrg_id
 
 
