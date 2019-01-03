@@ -35,7 +35,7 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
 
 ### Documentation
 Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
@@ -149,9 +149,7 @@ Project Elements:
 
 ## Extra stuff to write about
 Not including information can have a negative effect  
-Warning if not found    
-Talk about documentation  
-Talk about PEP8 and style guidelines  
+Warning if not found     
 Future maintenance  
 Future direction - if had more time  
 Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
