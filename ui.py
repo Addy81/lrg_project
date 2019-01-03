@@ -116,7 +116,7 @@ def ask_flank_size():
 		choice = input()
 		try:
 			choice_int = int(choice)
-			if choice_int >= 0 and choice_int <5000:
+			if choice_int >= 0:
 				validinput = True
 			else:
 				print("Please enter a valid choice")
