@@ -161,3 +161,7 @@ windows compatibility - fwd/back slashes (eg in tests) - swap out?
 If LRG_384 passed as arg, doesn;t ask for flanking region or whole introns
 Change maximum flank size to greater than 5000?
 mention differences between Unit testing, integration testing, functional testing  
+Need to add docstrings to bedgen
+Need to add docstrings to ui
+Mention that developed in accordance with http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf
+Add stuff to -help flag?
