@@ -27,6 +27,10 @@ def search_by_lrg(searchterm):
 	using the REST API. Returns the matching LRG XML file.
 	"""
 	url = "http://ftp.ebi.ac.uk/pub/databases/lrgex/"+searchterm+".xml"
-	queryresults = urllib.request.urlopen(url)
-	xml_file = queryresults.read()
+	try:
+		queryresults = urllib.request.urlopen(url)
+		xml_file = queryresults.read()
+	except urllib.error.HTTPError:
+		print("No LRG results for the search term: " + searchterm)
+		raise SystemExit
 	return(xml_file)
