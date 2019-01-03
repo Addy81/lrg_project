@@ -139,10 +139,6 @@ def main(args):
 
 def get_tree_and_root_file(xml_file):
 	"""Returns the XML tree and root when provided with an XML file"""
-	if not os.path.isfile(xml_file):
-		print("Error: File " + xml_file + " could not be found")
-		raise SystemExit
-
 	try:
 		tree = ET.parse(xml_file)
 		root = tree.getroot()
