@@ -58,9 +58,7 @@ def main(args):
 		# Obtain an LRG ID using Gene ID, only if no LRG ID has been provided
 		if 	args['geneid'] != None and args['lrgid'] == None:
 			searchresults = lrg_webservices.search_by_hgnc(args['geneid'])
-			if searchresults != None:
-				# TODO does this always only return 1 result?
-				args['lrgid'] =  searchresults 
+			args['lrgid'] =  searchresults 
 
 
 		# At this point, the program has an LRG ID and can use this to obtain
