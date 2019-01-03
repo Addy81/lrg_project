@@ -35,7 +35,7 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation.
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
@@ -145,7 +145,6 @@ Project Elements:
 - Return a BED
 
 ## Extra stuff to write about
-Mention ISO/UKAS conformance
 Not including information can have a negative effect  
 Warning if not found  
 Talk about code comments and docstrings  
