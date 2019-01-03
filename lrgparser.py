@@ -13,7 +13,7 @@ import functions
 # ui contains the terminal UI functions.  
 import ui 
 # lrg_webservices contains the terminal UI functions.  
-import lrg_webservices # Contains the 
+import lrg_webservices
 
 # XML Related Imports
 import xml.etree.ElementTree as ET
