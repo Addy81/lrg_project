@@ -17,7 +17,7 @@ def search_by_hgnc(searchterm):
 	try:
 		lrg_id = root.find('entries/entry').attrib['id']
 	except:
-		print("No LRG results for the search term: " + searchterm)
+		print("No LRG is available for: " + searchterm)
 		raise SystemExit
 	return lrg_id
 
@@ -31,6 +31,6 @@ def search_by_lrg(searchterm):
 		queryresults = urllib.request.urlopen(url)
 		xml_file = queryresults.read()
 	except urllib.error.HTTPError:
-		print("No LRG results for the search term: " + searchterm)
+		print("No LRG is available for the search term: " + searchterm)
 		raise SystemExit
 	return(xml_file)
