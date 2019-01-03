@@ -4,7 +4,9 @@ import os
 
 def determine_if_show_ui(args):
 	"""Determines whether the ui should be shown, based on the arguments
-	provided
+	provided. If the user has provided a file, lrgid or geneid argument flag
+	to the program, the	UI is NOT shown, unless required for safety reasons
+	(selecting the transcript or genome build when one has not been provided). 
 	"""
 	if (args['file'] == None and 
 		args['lrgid'] == None and 
