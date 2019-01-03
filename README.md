@@ -70,7 +70,11 @@ The Python library `unittest` has been used when writing tests. The test script 
 
 To check coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%. Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of unwanted changes. Changes in one part of the codebase may break or change how code works elsewhere. Without tests these changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
  
-Unit testing, integration testing, functional testing  
+Tests can be run with the command:
+```python
+python3 test.py
+```
+
 
 
 ## Program Use
@@ -159,3 +163,4 @@ Check whether because the exon start/stops are reversed so its small/big, that t
 windows compatibility - fwd/back slashes (eg in tests) - swap out?
 If LRG_384 passed as arg, doesn;t ask for flanking region or whole introns
 Change maximum flank size to greater than 5000?
+mention differences between Unit testing, integration testing, functional testing  
