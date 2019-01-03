@@ -139,8 +139,18 @@ def main(args):
 
 def get_tree_and_root_file(xml_file):
 	"""Returns the XML tree and root when provided with an XML file"""
-	tree = ET.parse(xml_file)
-	root = tree.getroot()
+	if not os.path.isfile(xml_file):
+		print("Error: File " + xml_file + " could not be found")
+		raise SystemExit
+
+	try:
+		tree = ET.parse(xml_file)
+		root = tree.getroot()
+	except:
+		print("Error: XML root could not be extracted from the file.")
+		print("Are you sure that it is a valid LRG XML file?")
+		raise SystemExit
+	
 	return root
 
 
