@@ -112,7 +112,7 @@ def main(args):
 									args['flank'])
 
 	# BED file filename creation
-	bed_filename = "_".join([lrg_object.hgnc_id,
+	bed_filename = "_".join([lrg_object.hgnc_name,
 							lrg_object.lrg_id,
 							args['transcript'],
 							args['referencegenome'],
