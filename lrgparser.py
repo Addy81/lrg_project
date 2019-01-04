@@ -21,10 +21,11 @@ import xml.etree.ElementTree as ET
 
 class LRG_Object:
 	"""LRG object class containing LRG ID, HGNC ID etc"""
-	def __init__(self, lrg_id, hgnc_id, seq_source, mol_type, 
+	def __init__(self, lrg_id, hgnc_id, hgnc_name, seq_source, mol_type, 
 				mapped_flanked_exon_coords, mapped_intron_coords, chromosome):
 		self.lrg_id = lrg_id
 		self.hgnc_id = hgnc_id
+		self.hgnc_name = hgnc_name
 		self.seq_source = seq_source
 		self.mol_type = mol_type
 		self.mapped_flanked_exon_coords = mapped_flanked_exon_coords
@@ -120,11 +121,12 @@ def main(args):
 					
 	# BED file header creation
 	bedheader_name = "LRG_Parser_Custom_Track"
-	bedheader_desc = "_".join([lrg_object.hgnc_id,
+	bedheader_desc = "_".join([lrg_object.hgnc_name,
 								lrg_object.lrg_id,
 								args['transcript'],
 								args['referencegenome']])
-	bedheader = [bedheader_name, bedheader_desc]
+	bedheader = ["track name=" + bedheader_name,
+				"description=" + bedheader_desc]
 
 
 	# Create the contents of the BED file.
@@ -201,7 +203,9 @@ def lrg_object_creator(root, genome_choice, transcript_choice,
 			for transcript in transcript_type:
 				if transcript.tag == "mapping":
 					chromosome = transcript.attrib["other_name"]
-	
+				if transcript.tag == "lrg_locus":
+					hgnc_name = transcript.text
+
 	# LRG exon coordinates mapped to the given genome build and transcript
 	mapped_exon_coords = functions.get_exon_coords(root, genome_choice,
 												transcript_choice)
@@ -216,6 +220,7 @@ def lrg_object_creator(root, genome_choice, transcript_choice,
 	# Create an LRG Object using the LRG_Object class
 	lrg_object = LRG_Object(lrg_id, 
 							hgnc_id, 
+							hgnc_name,
 							seq_source, 
 							mol_type, 
 							mapped_flanked_exon_coords, 
