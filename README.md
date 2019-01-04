@@ -33,7 +33,9 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed.
+
+The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
 
 ### Documentation
 Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
@@ -163,7 +165,6 @@ Change maximum flank size to greater than 5000?
 mention differences between Unit testing, integration testing, functional testing  
 Need to add docstrings to bedgen
 Need to add docstrings to ui
-Mention that developed in accordance with http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf
 Add stuff to -help flag?
 
 Need error handing if genome v provided that doesnt exist - fails with "UnboundLocalError: local variable 'strand' referenced before assignment"
