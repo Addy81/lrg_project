@@ -18,11 +18,13 @@ def get_exon_coords(root, genome_choice, transcript_choice):
     for mapping in root.iter('mapping'):
         # Checks the reference genome requested by the user and extracts the
         # correct mapping start and end coordinates.
+        
         if genome_choice == mapping.attrib['coord_system']:
             for mapping_span in mapping.iter('mapping_span'):
                 mapped_start = int(mapping_span.attrib['other_start']) - 1
                 mapped_end = int(mapping_span.attrib['other_end']) + 1
                 strand = mapping_span.attrib['strand']
+
 
         # Checks the transcript requested by the user and calculates the 
         # genomic coordinates accordingly.
@@ -50,6 +52,8 @@ def get_exon_coords(root, genome_choice, transcript_choice):
                 # i.e. {'1': [23904870, 23904829]}
                 mapped_coordinates[count] = coordinates
             
+    print(len(mapped_coordinates))
+
     return mapped_coordinates
 
 
