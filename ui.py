@@ -17,7 +17,7 @@ def determine_if_show_ui(args):
 	return show_ui
 
 def splashscreen():
-	os.system("clear")
+	os.system('cls' if os.name == 'nt' else 'clear')
 	print("="*40)
 	print("")
 	print("    LRG File Parsing Program")
