@@ -7,6 +7,12 @@ def determine_if_show_ui(args):
 	provided. If the user has provided a file, lrgid or geneid argument flag
 	to the program, the	UI is NOT shown, unless required for safety reasons
 	(selecting the transcript or genome build when one has not been provided). 
+	
+	Args:
+		args (dict): Dictionary containing command line arguments
+	Returns:
+		show_ui (bool): True or False whether the UI should be shown
+
 	"""
 	if (args['file'] == None and 
 		args['lrgid'] == None and 
@@ -27,7 +33,12 @@ def splashscreen():
 	print("="*40)
 
 def ask_what_gene():
-	"""Prompts the user to input a desired HGNC Gene Name"""
+	"""Prompts the user to input a desired HGNC Gene Name
+
+	Returns:
+		selection (str): The gene name obtained from user input
+
+	"""
 	print("")
 	print("    Please enter a HGNC Gene Name")
 	print("")
@@ -37,7 +48,14 @@ def ask_what_gene():
 
 def ask_which_genome_build(genomebuilds):
 	"""Prompts the user to select the desired genome build. These are
-	extracted from the XML file."""
+	extracted from the XML file.
+
+	Args:
+		genomebuilds (list): List of different genome builds
+	Returns:
+		genome_choice (str): The genome build the user has selected
+	
+	"""
 	print("")
 	print("    Which genome build would you like to use?")
 	counter = 1
@@ -59,12 +77,20 @@ def ask_which_genome_build(genomebuilds):
 	print("")
 	print("    Genome Build choice: " + genomebuilds[choice_int-1])
 	print("")
-	return genomebuilds[choice_int-1]
+	genome_choice = genomebuilds[choice_int-1]
+	return genome_choice
 
 
 def ask_which_transcript(transcripts):
 	"""Prompts the user to select the desired transcript. These are
-	extracted from the XML file."""
+	extracted from the XML file.
+
+	Args:
+		transcripts (list): List of different transcripts
+	Returns:
+		transcript_choice (str): The transcript the user has selected
+
+	"""
 	print("")
 	print("    Please select the desired transcript")
 	counter = 1
@@ -87,11 +113,17 @@ def ask_which_transcript(transcripts):
 	print("")
 	print("    Transcript choice: " + transcripts[choice_int-1])
 	print("")
-	return transcripts[choice_int-1]
+	transcript_choice = transcripts[choice_int-1]
+	return transcript_choice
 
 
 def ask_include_introns():
-	"""Asks the user whether they require introns in the BED file."""
+	"""Asks the user whether they require introns in the BED file.
+
+	Returns:
+		choice (bool): True or False whether introns are to be included
+
+	"""
 	print("")
 	print("    Would you like to include whole introns?")
 	print("")
@@ -113,7 +145,12 @@ def ask_include_introns():
 
 
 def ask_flank_size():
-	"""Asks the user whether they require introns in the BED file."""
+	"""Asks the user whether they require introns in the BED file.
+	
+	Returns:
+		choice (int): The size of the flanking region required
+
+	"""
 	print("")
 	print("    What size of flanking region is required?")
 	print("")
