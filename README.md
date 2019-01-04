@@ -165,3 +165,7 @@ Need to add docstrings to bedgen
 Need to add docstrings to ui
 Mention that developed in accordance with http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf
 Add stuff to -help flag?
+
+Need error handing if genome v provided that doesnt exist - fails with "UnboundLocalError: local variable 'strand' referenced before assignment"
+
+Need some form of catch for transcript versions - if provide rubbish eg "-t sdfsaf", no errors, just makes BED file with nothing but the header
