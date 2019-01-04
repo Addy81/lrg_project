@@ -155,10 +155,10 @@ Project Elements:
 - Return a BED
 
 ## TO DO 
-Need to add docstrings to bedgen  
 Add stuff to -help flag?
 Check when strand is reversed - is it base inclusive? half or full indexed? 
-Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7? 
+Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
+Reformat docstrings to match reST format PEP257 
 
 ## MAYBE TO DO?
 Make log files?  
