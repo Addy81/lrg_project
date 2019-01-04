@@ -156,7 +156,6 @@ Project Elements:
 
 ## TO DO 
 Need to add docstrings to bedgen  
-Need to add docstrings to ui  
 Add stuff to -help flag?
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7? 
@@ -165,7 +164,6 @@ Check whether because the exon start/stops are reversed so its small/big, that t
 Make log files?  
 Include time and date in filename/header?  
 
-windows compatibility - fwd/back slashes (eg in tests) - swap out?
 mention differences between Unit testing, integration testing, functional testing  
 
 

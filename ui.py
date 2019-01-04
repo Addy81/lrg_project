@@ -17,6 +17,7 @@ def determine_if_show_ui(args):
 	return show_ui
 
 def splashscreen():
+	"""Displays the intial startscreen"""
 	os.system('cls' if os.name == 'nt' else 'clear')
 	print("="*40)
 	print("")
@@ -26,14 +27,17 @@ def splashscreen():
 	print("="*40)
 
 def ask_what_gene():
+	"""Prompts the user to input a desired HGNC Gene Name"""
 	print("")
-	print("    Please enter a HGNC Gene ID")
+	print("    Please enter a HGNC Gene Name")
 	print("")
 	selection = input()
 	return selection
 
 
 def ask_which_genome_build(genomebuilds):
+	"""Prompts the user to select the desired genome build. These are
+	extracted from the XML file."""
 	print("")
 	print("    Which genome build would you like to use?")
 	counter = 1
@@ -59,6 +63,8 @@ def ask_which_genome_build(genomebuilds):
 
 
 def ask_which_transcript(transcripts):
+	"""Prompts the user to select the desired transcript. These are
+	extracted from the XML file."""
 	print("")
 	print("    Please select the desired transcript")
 	counter = 1
@@ -85,6 +91,7 @@ def ask_which_transcript(transcripts):
 
 
 def ask_include_introns():
+	"""Asks the user whether they require introns in the BED file."""
 	print("")
 	print("    Would you like to include whole introns?")
 	print("")
@@ -106,10 +113,13 @@ def ask_include_introns():
 
 
 def ask_flank_size():
+	"""Asks the user whether they require introns in the BED file."""
 	print("")
-	print("    Would you like to include flanking regions?")
+	print("    What size of flanking region is required?")
 	print("")
-	print("    Enter a flanking length, e.g 10 for a 10bp flank")
+	print("    Enter a flanking length")
+	print("       e.g 10 for a 10bp flank")
+	print("       e.g 0 for no flanking region")
 	print("")
 	validinput = False
 	while validinput == False:
