@@ -33,9 +33,7 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed.
-
-The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that tools created are useful to the end user.
 
 ### Documentation
 Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
@@ -152,20 +150,21 @@ Not including information can have a negative effect
 Warning if not found     
 Future maintenance  
 Future direction - if had more time  
-Seeking feedback - AT asked B7 for clarification about inclusion of introns. Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
+Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
 Make log files?  
 Include time and date?  
 Broken HGNC name in filename and header, accidentally made into HGNCID, needs reverting  
-ERROR HANDLING  
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
 windows compatibility - fwd/back slashes (eg in tests) - swap out?
 If LRG_384 passed as arg, doesn;t ask for flanking region or whole introns
-Change maximum flank size to greater than 5000?
+
 mention differences between Unit testing, integration testing, functional testing  
 Need to add docstrings to bedgen
 Need to add docstrings to ui
 Add stuff to -help flag?
+
+##ERROR HANDLING 
 
 Need error handing if genome v provided that doesnt exist - fails with "UnboundLocalError: local variable 'strand' referenced before assignment"
 
