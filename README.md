@@ -41,7 +41,7 @@ Documentation is important when creating any software application, but is essent
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
 HGNC Gene ID, LRG ID, Genome Version, Transcript.  
-This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row.
+This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row to allow identification.
 
 ### Flag / Flagless Mode
 The tool has been written so that it can be run with a set of flags, which provide all of the information required to create a BED file. The minimum flags necessary for automated BED generation is one defining which LRG to use (by providing either an LRG ID, HGNC Gene Name, or LRG XML file), along with a transcript and genome assembly version. If one of these flags is missing, the user interface (UI) will display and prompt the user for their choice. Having this information is essential, as creating a BED file without defining a transcript is unsafe, especially in a clinical environment.
@@ -145,24 +145,17 @@ Project Elements:
 - Identify differences in the transcript
 - Return a BED
 
-## Extra stuff to write about
-Not including information can have a negative effect  
-Warning if not found     
-Future maintenance  
-Future direction - if had more time  
-Mention importance of feedback in development of tools that are useful and safe. This is how agile development is performed  
+## Extra stuff to write about 
+Need to add docstrings to bedgen  
+Need to add docstrings to ui  
+Add stuff to -help flag?  
 Make log files?  
-Include time and date?  
-Broken HGNC name in filename and header, accidentally made into HGNCID, needs reverting  
+Include time and date in filename/header?  
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
 windows compatibility - fwd/back slashes (eg in tests) - swap out?
-If LRG_384 passed as arg, doesn;t ask for flanking region or whole introns
-
 mention differences between Unit testing, integration testing, functional testing  
-Need to add docstrings to bedgen
-Need to add docstrings to ui
-Add stuff to -help flag?
+
 
 ##ERROR HANDLING 
 
