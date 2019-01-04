@@ -33,7 +33,11 @@ As the tool is being designed to be used in a clinical environment, extra functi
 
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that tools created are useful to the end user.
+Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that tools created are useful to the end user.
+
+### Compatability
+The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
+It has been tested on both macOS and ubuntu-based linux operating systems. The program does run on Windows 7 but complete compatibility has not been tested.
 
 ### Documentation
 Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
@@ -76,6 +80,11 @@ Tests can be run with the command:
 python3 test.py
 ```
 
+
+## Installation
+The program can simply be installed by cloning the git repository
+`git clone https://github.com/Addy81/lrg_project.git`
+There are no external dependencies or libraries used so no further installation steps are required.
 
 
 ## Program Use
@@ -145,14 +154,17 @@ Project Elements:
 - Identify differences in the transcript
 - Return a BED
 
-## Extra stuff to write about 
+## TO DO 
 Need to add docstrings to bedgen  
 Need to add docstrings to ui  
-Add stuff to -help flag?  
+Add stuff to -help flag?
+Check when strand is reversed - is it base inclusive? half or full indexed? 
+Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7? 
+
+## MAYBE TO DO?
 Make log files?  
 Include time and date in filename/header?  
-Check when strand is reversed - is it base inclusive? half or full indexed? 
-Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
+
 windows compatibility - fwd/back slashes (eg in tests) - swap out?
 mention differences between Unit testing, integration testing, functional testing  
 
