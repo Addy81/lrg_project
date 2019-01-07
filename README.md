@@ -16,6 +16,7 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 * [Program Use](#program-use)
 
 ## Project Brief
+The project brief was to create a program which could parse LRG XML files and extract exon locations.
 
 ### User Requirements
 The user requirements provided during the practical sessions were that the application could:
@@ -146,29 +147,14 @@ Short Flag | Long Flag | Description
 
 -----------------------------MISC------------------------------------
 
-## Stuff chopped out of old readme.md, to shove back in somewhere
-Project Elements:
-- Inspect element from xml
-- Identify exon locations
-- Where are the introns?
-- Identify differences in the transcript
-- Return a BED
-
 ## TO DO 
 Add stuff to -help flag?
 Check when strand is reversed - is it base inclusive? half or full indexed? 
 Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
-Reformat docstrings to match reST format PEP257 
+
 
 ## MAYBE TO DO?
 Make log files?  
 Include time and date in filename/header?  
 
 mention differences between Unit testing, integration testing, functional testing  
-
-
-##ERROR HANDLING 
-
-Need error handing if genome v provided that doesnt exist - fails with "UnboundLocalError: local variable 'strand' referenced before assignment"
-
-Need some form of catch for transcript versions - if provide rubbish eg "-t sdfsaf", no errors, just makes BED file with nothing but the header
