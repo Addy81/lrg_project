@@ -27,8 +27,9 @@ class WebServicesTests(TestCase):
 		self.assertEqual(ws.search_by_hgnc("MYH7"), "LRG_384")
 
 	def test_invalid_hgnc_search(self):
-		"""Checks that the LRG ID returned by the LRG website is correct """
-		self.assertEqual(ws.search_by_hgnc("invalid_hgnc"), None)
+		"""Checks that a SystemExit is raised when invalid input is provided"""
+		with self.assertRaises(SystemExit) as se:
+			ws.search_by_hgnc("invalid_hgnc")
 
 	def test_lrg_xml_file(self):
 		"""Checks that the LRG file returned by the LRG website has the 
@@ -56,7 +57,7 @@ class LRGParserTests(TestCase):
 		function returns a root object with a single root tag - "lrg"
 		"""
 		root = lrgp.get_tree_and_root_file(str(self.xml_path_full))
-		test_xml.close()
+		#test_xml.close()
 		self.assertEqual(root.tag, "lrg")
 
 	def test_get_tree_and_root_string(self):
@@ -204,7 +205,7 @@ class UITests(TestCase):
 		"""
 		self.assertEqual(ui.ask_include_introns(), False)
 
-	@patch('ui.input', side_effect=["badinput", "100000", "150"])
+	@patch('ui.input', side_effect=["badinput", "-10", "150"])
 	def test_ask_flank_size(self, input):
 		"""Check that the ask_flank_size() function correctly handles
 		invalid input (string and then an int over the max allowed) 
