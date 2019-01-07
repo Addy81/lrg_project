@@ -6,9 +6,15 @@ import lrgparser
 
 
 def search_by_hgnc(searchterm):
-	"""Searches the lrg-sequence database for the provided HGNC ID searchterm 
+	"""Searches the lrg-sequence database for the provided HGNC searchterm 
 	using the REST API. Returns a matching LRG ID extracted from the search
 	results XML file (Note: Not an LRG XML file)
+	
+	Args:
+		searchterm (str): HGNC name search term to query the ebi.ac.uk site
+	Returns:
+		lrg_id (str): LRG ID that matches the HGNC gene input
+
 	"""
 	url = "https://www.ebi.ac.uk/ebisearch/ws/rest/lrg?query=name:"+searchterm
 	queryresults = urllib.request.urlopen(url)
@@ -25,6 +31,12 @@ def search_by_hgnc(searchterm):
 def search_by_lrg(searchterm):
 	"""Searches the lrg-sequence database for the provided LRG ID searchterm 
 	using the REST API. Returns the matching LRG XML file.
+	
+	Args:
+		searchterm (str): LRG ID in the format 'LRG_123'
+	Returns:
+		xml_file (str): Contents of the returned XML file
+
 	"""
 	url = "http://ftp.ebi.ac.uk/pub/databases/lrgex/"+searchterm+".xml"
 	try:
@@ -33,4 +45,5 @@ def search_by_lrg(searchterm):
 	except urllib.error.HTTPError:
 		print("No LRG is available for the search term: " + searchterm)
 		raise SystemExit
+	print(xml_file)
 	return(xml_file)
