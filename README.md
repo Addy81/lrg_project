@@ -83,7 +83,7 @@ python3 test.py
 ---
 
 ## Installation
-The program can simply be installed by cloning the git repository
+The program can simply be installed by cloning the git repository.  
 `git clone https://github.com/Addy81/lrg_project.git`
 There are no external dependencies or libraries used so no further installation steps are required.
 
@@ -98,7 +98,6 @@ python lrgparser.py
 As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*.  
 \**These are extracted from the LRG file which will be downloaded, no knowledge about available transcripts is required by the user.*
 
-<br>
 
 ### With Flags
 The program is flexible and can take multiple optional flags as arguments.
@@ -128,7 +127,7 @@ Short Flag | Long Flag | Description
 `-i` | `--introns` | If this flag is present, intronic regions will be included
 `-fl` | `--flank` |  Takes a flank size in bases (Minimum 0, Maximum 5000)
 
-<br>
+---
 
 ### Examples
 1. When you know the gene name, but not the LRG ID and you don't have a file  
