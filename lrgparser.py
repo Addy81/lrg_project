@@ -72,14 +72,20 @@ def main(args):
 	# mapping information.
 
 	# Pick which Genome Build to use if none has been provided with a flag
-	if args['referencegenome'] == None:
-		genomebuilds = get_genome_builds(root)
+	genomebuilds = get_genome_builds(root)
+	if args['referencegenome'] == None 
+			or args['referencegenome'] 
+			not in genomebuilds:
+
 		genome_choice = ui.ask_which_genome_build(genomebuilds)
 		args['referencegenome'] = genome_choice
 
 	# Pick which Transcript to use if none has been provided with a flag
-	if args['transcript'] == None:
-		transcript_ids = get_transcript_ids(root)
+	transcript_ids = get_transcript_ids(root)
+	if args['transcript'] == None 
+			or args['transcript'] 
+			not in transcript_ids:
+
 		transcript_choice = ui.ask_which_transcript(transcript_ids)
 		args['transcript'] = transcript_choice
 	
