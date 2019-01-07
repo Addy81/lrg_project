@@ -136,7 +136,6 @@ def get_tree_and_root_file(xml_file):
 	Returns:
 		root (xml.etree.ElementTree): ElementTree object representing the
 										root of the XML file
-
 	"""
 
 	try:
@@ -174,8 +173,8 @@ def get_genome_builds(root):
 	Returns:
 		genomebuilds (list): List of the different genome builds present in
 								the given XML root.
-
 	"""
+	
 	genomebuilds = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
