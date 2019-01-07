@@ -11,7 +11,6 @@ def create_bed_contents(lrg_object, introns_choice):
 		introns_choice (bool): Include introns True or False
 	Returns:
 		bedcontents (list): Nested list of rows [chromosome, start, end, label]
-
 	"""
 
 	bedcontents = []
@@ -55,9 +54,8 @@ def write_bed_file(filetowrite, bedheader, bedcontents):
 		Nothing
 	Raises:
 		SystemExit: If the file could not be written
-
 	"""
-
+	
 	try:
 		with open(filetowrite, 'w', newline='') as csv_file:
 			writer = csv.writer(csv_file, delimiter="\t")

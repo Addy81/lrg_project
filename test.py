@@ -41,7 +41,6 @@ class WebServicesTests(TestCase):
 		self.assertIn("LRG_384", test_xml_contents)
 
 
-
 class LRGParserTests(TestCase):
 	"""Tests designed to test the functions contained within the
 	lrgparser.py file.
@@ -57,7 +56,6 @@ class LRGParserTests(TestCase):
 		function returns a root object with a single root tag - "lrg"
 		"""
 		root = lrgp.get_tree_and_root_file(str(self.xml_path_full))
-		#test_xml.close()
 		self.assertEqual(root.tag, "lrg")
 
 	def test_get_tree_and_root_string(self):
@@ -70,7 +68,6 @@ class LRGParserTests(TestCase):
 			self.assertEqual(root.tag, "lrg")
 		except Exception as e:
 			self.fail("Error querying the LRG site:", e)
-
 
 	def test_get_genome_builds(self):
 		"""Tests that the correct genome build numbers are extracted from
@@ -212,7 +209,6 @@ class UITests(TestCase):
 		followed by returning a valid input value when provided (150) 
 		"""
 		self.assertEqual(ui.ask_flank_size(), "150")
-
 
 
 if __name__ == '__main__':

@@ -54,8 +54,8 @@ def ask_which_genome_build(genomebuilds):
 		genomebuilds (list): List of different genome builds
 	Returns:
 		genome_choice (str): The genome build the user has selected
-	
 	"""
+
 	print("")
 	print("    Which genome build would you like to use?")
 	counter = 1
@@ -89,8 +89,8 @@ def ask_which_transcript(transcripts):
 		transcripts (list): List of different transcripts
 	Returns:
 		transcript_choice (str): The transcript the user has selected
-
 	"""
+
 	print("")
 	print("    Please select the desired transcript")
 	counter = 1
@@ -122,8 +122,8 @@ def ask_include_introns():
 
 	Returns:
 		choice (bool): True or False whether introns are to be included
-
 	"""
+
 	print("")
 	print("    Would you like to include whole introns?")
 	print("")
@@ -149,8 +149,8 @@ def ask_flank_size():
 	
 	Returns:
 		choice (int): The size of the flanking region required
-
 	"""
+	
 	print("")
 	print("    What size of flanking region is required?")
 	print("")
