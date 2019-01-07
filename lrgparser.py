@@ -55,12 +55,10 @@ def main(args):
 			searchquery = ui.ask_what_gene()
 			args['geneid'] = searchquery
 
-
 		# Obtain an LRG ID using Gene ID, only if no LRG ID has been provided
 		if 	args['geneid'] != None and args['lrgid'] == None:
 			searchresults = lrg_webservices.search_by_hgnc(args['geneid'])
 			args['lrgid'] =  searchresults 
-
 
 		# At this point, the program has an LRG ID and can use this to obtain
 		# an XML from the LRG-sequence.org site
@@ -68,11 +66,10 @@ def main(args):
 		# Obtain the root from the XML string provided by the webservices
 		root = get_tree_and_root_string(lrg_xml)
 
-
-	# At this point in the program, whether a file, LRG ID or Gene ID has been
-	# provided, the program now has an XML root, from which it can obtain 
-	# genome build, transcript, exon location and mapping information.
-
+	# At this point in the program, regardless of whether a file, LRG ID 
+	# or Gene ID has been provided, the program now has an XML root, from
+	# which it can obtain genome build, transcript, exon location and
+	# mapping information.
 
 	# Pick which Genome Build to use if none has been provided with a flag
 	if args['referencegenome'] == None:
@@ -80,14 +77,12 @@ def main(args):
 		genome_choice = ui.ask_which_genome_build(genomebuilds)
 		args['referencegenome'] = genome_choice
 
-
 	# Pick which Transcript to use if none has been provided with a flag
 	if args['transcript'] == None:
 		transcript_ids = get_transcript_ids(root)
 		transcript_choice = ui.ask_which_transcript(transcript_ids)
 		args['transcript'] = transcript_choice
 	
-
 	# Pick the flank size to use if none has been provided with a flag
 	if args['flank'] == None:
 		if show_ui == True:
@@ -96,12 +91,10 @@ def main(args):
 			args['flank'] = 0
 	args['flank'] = int(args['flank'])
 
-
 	# Choose whether to include intronic regions in the BED file
 	if args['introns'] == False:
 		if show_ui == True:
 			args['introns'] = ui.ask_include_introns()
-
 
 	# Create an LRG_Object, which contains LRG ID, HGNC ID, mapped exon 
 	# coordinates etc. This information is extracted from the XML root by
@@ -118,7 +111,7 @@ def main(args):
 							args['referencegenome'],
 							"flank"+str(args['flank'])
 							]) + ".tsv"
-					
+
 	# BED file header creation
 	bedheader_name = "LRG_Parser_Custom_Track"
 	bedheader_desc = "_".join([lrg_object.hgnc_name,
@@ -128,17 +121,24 @@ def main(args):
 	bedheader = ["track name=" + bedheader_name,
 				"description=" + bedheader_desc]
 
-
 	# Create the contents of the BED file.
 	bedcontents = bedgen.create_bed_contents(lrg_object, args['introns'])
-
 
 	# Write the BED contents to disk
 	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
 
 
 def get_tree_and_root_file(xml_file):
-	"""Returns the XML tree and root when provided with an XML file"""
+	"""Returns the XML tree and root when provided with an XML file
+
+	Args:
+		xml_file (str): XML file path
+	Returns:
+		root (xml.etree.ElementTree): ElementTree object representing the
+										root of the XML file
+
+	"""
+
 	try:
 		tree = ET.parse(xml_file)
 		root = tree.getroot()
@@ -151,7 +151,15 @@ def get_tree_and_root_file(xml_file):
 
 
 def get_tree_and_root_string(xml_string):
-	"""Returns the XML tree and root when provided with an XML string"""
+	"""Returns the XML tree and root when provided with an XML string
+
+	Args:
+		xml_file (str): XML file contents as a string
+	Returns:
+		root (xml.etree.ElementTree): ElementTree object representing the
+										root of the XML file
+	"""
+
 	root = ET.fromstring(xml_string)
 	return root
 
@@ -159,6 +167,14 @@ def get_tree_and_root_string(xml_string):
 def get_genome_builds(root):
 	"""Returns the different possible genome builds extracted from the LRG 
 	xml file.
+	
+	Args:
+		root (xml.etree.ElementTree): ElementTree object representing the
+										root of the XML file
+	Returns:
+		genomebuilds (list): List of the different genome builds present in
+								the given XML root.
+
 	"""
 	genomebuilds = []
 	for transcript_type in root.iter('annotation_set'):
@@ -174,7 +190,15 @@ def get_genome_builds(root):
 def get_transcript_ids(root):
 	"""Returns the different possible transcripts extracted from the LRG 
 	xml file
+
+	Args:
+		root (xml.etree.ElementTree): ElementTree object representing the
+										root of the XML file
+	Returns:
+		genomebuilds (list): List of the different transcripts present in
+								the given XML root.
 	"""
+
 	transcripts = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -186,11 +210,20 @@ def get_transcript_ids(root):
 	return transcripts
 
 
-def lrg_object_creator(root, genome_choice, transcript_choice, 
-						flank):
+def lrg_object_creator(root, genome_choice, transcript_choice, flank):
 	"""Returns an LRG object when passed an LRG root. Object contains 
 	lrg_id, hgnc_id, seq_source, mol_type, a dict of exons and locations.
+	
+	Args:
+		root (xml.etree.ElementTree): ElementTree object representing the
+										root of the XML file
+		genome_choice (str): The genome build the user has selected
+		transcript_choice (str):  The transcript the user has selected
+		flank (int): The flanking size the user has selected
+	Returns:
+		lrgobject (): LRG_Object class object
 	"""
+
 	lrg_id = root.find('fixed_annotation/id').text
 	hgnc_id = root.find('fixed_annotation/hgnc_id').text
 	seq_source = root.find('fixed_annotation/sequence_source').text
@@ -229,7 +262,17 @@ def lrg_object_creator(root, genome_choice, transcript_choice,
 	return lrg_object
 
 def arg_collection(arguments):
-	"""Perfoms the inital collection of arguments when the program starts"""
+	"""Perfoms the inital collection of arguments when the program starts.
+	Uses ArgumentParser() to add appropriate flags and collect arguments
+
+	Args:
+		arguments (list): List of unprocessed arguments
+	Returns:
+		arguments (dict): Dictionary of processed arguments
+	"""
+	
+	print(type(arguments))
+
 	parser = argparse.ArgumentParser()
 	# Main Arguments: 
 	# Different routes to obtain an LRG XML file
@@ -270,7 +313,6 @@ def arg_collection(arguments):
 						type=int,
 						help="If present, exon coords include flanking regions")
 
-
 	args = parser.parse_args(arguments)
 	arguments = {
 				'file': args.file,
@@ -281,6 +323,7 @@ def arg_collection(arguments):
 				'flank': args.flank,
 				'introns': args.introns,
 				}
+	
 	return arguments
 
 
