@@ -45,5 +45,4 @@ def search_by_lrg(searchterm):
 	except urllib.error.HTTPError:
 		print("No LRG is available for the search term: " + searchterm)
 		raise SystemExit
-	print(xml_file)
 	return(xml_file)
