@@ -276,20 +276,26 @@ def arg_collection(arguments):
 		arguments (dict): Dictionary of processed arguments
 	"""
 
-	parser = argparse.ArgumentParser()
+	parser = argparse.ArgumentParser(description = "LRG Parser: " + 
+													"A program to extract " +
+													"exon locations from " +
+													"an LRG XML file and " +
+													"write them to a BED " +
+													"file.")
 	# Main Arguments: 
 	# Different routes to obtain an LRG XML file
 	# Either by providing a file, a HGNC gene ID or an LRG ID.
 	parser.add_argument('-f', '--file',
-						help="ExistingLRG XML File location",
+						help="Path to an existing LRG XML file e.g " + 
+								"-f testfiles/LRG384.xml",
 						type=str,
 						dest='file')
 	parser.add_argument('-g', '--geneid',
-						help="Gene ID",
+						help="Gene Name (HGNC) e.g -g MYH7",
 						type=str,
 						dest='geneid')
 	parser.add_argument('-l', '--lrgid',
-						help="LRG ID",
+						help="LRG ID e.g -l LRG_384",
 						type=str,
 						dest='lrgid')
 
@@ -297,11 +303,11 @@ def arg_collection(arguments):
 	# Extra arguments necessary for automated BED file generation
 	# If not provided, the UI will take over and prompt the user
 	parser.add_argument('-r', '--referencegenome',
-						help="Reference genome",
+						help="Reference genome, e.g -r GRCh37.p13",
 						type=str,
 						dest='referencegenome')
 	parser.add_argument('-t', '--transcript',
-						help="Transcript",
+						help="Transcript name e.g -t NM_000257.2",
 						type=str,
 						dest='transcript')
 	
@@ -311,10 +317,10 @@ def arg_collection(arguments):
 	# or absence will be displayed in the BED filename for audit purposes
 	parser.add_argument('-i', '--introns',
 						action='store_true', 
-						help="If present, the BED file  will include introns")
+						help="If present, the BED file  will include introns e.g -i")
 	parser.add_argument('-fl', '--flank', 
 						type=int,
-						help="If present, exon coords include flanking regions")
+						help="If present, exon coords include flanking regions e.g -fl 150")
 
 	args = parser.parse_args(arguments)
 	arguments = {
