@@ -174,7 +174,7 @@ def get_genome_builds(root):
 		genomebuilds (list): List of the different genome builds present in
 								the given XML root.
 	"""
-	
+
 	genomebuilds = []
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
@@ -269,8 +269,6 @@ def arg_collection(arguments):
 	Returns:
 		arguments (dict): Dictionary of processed arguments
 	"""
-	
-	print(type(arguments))
 
 	parser = argparse.ArgumentParser()
 	# Main Arguments: 
