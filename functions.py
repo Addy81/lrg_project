@@ -51,8 +51,6 @@ def get_exon_coords(root, genome_choice, transcript_choice):
                 # keys, with start and stop coordinates as values 
                 # i.e. {'1': [23904870, 23904829]}
                 mapped_coordinates[count] = coordinates
-            
-    print(len(mapped_coordinates))
 
     return mapped_coordinates
 
