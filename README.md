@@ -16,10 +16,9 @@ Developed by Joseph Mahon and Adriana Toutoudaki during the Programming Week in 
 * [Program Use](#program-use)
 
 ## Project Brief
-The project brief was to create a program which could parse LRG XML files and extract exon locations.
 
 ### User Requirements
-The user requirements provided during the practical sessions were that the application could:
+The user requirements provided during the practical sessions were to create an application that could:
 - Parse LRG XML files
 - Extract Exon locations
 
@@ -45,8 +44,8 @@ Documentation is important when creating any software application, but is essent
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
-HGNC Gene ID, LRG ID, Genome Version, Transcript.  
-This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row to allow identification.
+HGNC Gene ID, LRG ID, Genome Version, Transcript, whether introns are included, the size of any flanking region and the date and time of file generation.  
+This information is also included within the header of the LRG file to ensure that it is visible when loaded into a genome browser. Each row in the resulting BED file makes use of the [extended BED format](https://genome.ucsc.edu/FAQ/FAQformat.html) and includes the additional field ‘name’, which is used as a descriptor for the row to allow identification. Retaining this information in the filename and BED header is important for audit purposes.
 
 ### Flag / Flagless Mode
 The tool has been written so that it can be run with a set of flags, which provide all of the information required to create a BED file. The minimum flags necessary for automated BED generation is one defining which LRG to use (by providing either an LRG ID, HGNC Gene Name, or LRG XML file), along with a transcript and genome assembly version. If one of these flags is missing, the user interface (UI) will display and prompt the user for their choice. Having this information is essential, as creating a BED file without defining a transcript is unsafe, especially in a clinical environment.
@@ -97,6 +96,8 @@ python lrgparser.py
 As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*.  
 \**These are extracted from the LRG file which will be downloaded, no knowledge about available transcripts is required by the user.*
 
+<br>
+
 ### With Flags
 The program is flexible and can take multiple optional flags as arguments.
 
@@ -109,6 +110,8 @@ Short Flag | Long Flag | Description
 `-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)
 `-g` | `--gene`  | Takes an HGNC gene name as an argument (e.g MYH7)
 
+<br>
+
 #### Supplimentary Arguments
 Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference. If these are provided along with one of the flags from above, BED file generation will be completely automated.
 
@@ -117,6 +120,8 @@ Short Flag | Long Flag | Description
 `-t` | `--transcript` | Takes a transcript as an argument (e.g NM_000257.2)
 `-r` | `--referencegenome` |  Takes a reference genome as an argument (e.g GRCh37.p13)
 
+<br>
+
 #### Other Arguments
 These are other optional arguments which are not required for automated BED generation, but they provide functionality that may be useful.
 
@@ -124,6 +129,8 @@ Short Flag | Long Flag | Description
  --- | --- | ---
 `-i` | `--introns` | If this flag is present, intronic regions will be included
 `-fl` | `--flank` |  Takes a flank size in bases (Minimum 0, Maximum 5000)
+
+<br>
 
 ### Examples
 1. When you know the gene name, but not the LRG ID and you don't have a file  
@@ -148,13 +155,14 @@ Short Flag | Long Flag | Description
 -----------------------------MISC------------------------------------
 
 ## TO DO 
-Add stuff to -help flag?
-Check when strand is reversed - is it base inclusive? half or full indexed? 
-Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?
+- Check when strand is reversed - is it base inclusive? half or full indexed?  
 
+- Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?  
+
+- Write tests for functions.py  
+- Write tests for bedgen.py  
 
 ## MAYBE TO DO?
-Make log files?  
-Include time and date in filename/header?  
+- Make log files when generating a file?  
 
-mention differences between Unit testing, integration testing, functional testing  
+- Mention differences between Unit testing, integration testing, functional testing  
