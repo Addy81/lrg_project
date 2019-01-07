@@ -4,6 +4,7 @@
 import argparse
 import os
 import sys
+import datetime
 
 # Import of local python scripts. 
 # bedgen contains the BED file generating functions
@@ -111,11 +112,14 @@ def main(args):
 									args['flank'])
 
 	# BED file filename creation
+	current_datetime = datetime.datetime.utcnow()
+	current_datetime_formatted = current_datetime.strftime("%Y%m%d-%H%M%S")
 	bed_filename = "_".join([lrg_object.hgnc_name,
 							lrg_object.lrg_id,
 							args['transcript'],
 							args['referencegenome'],
-							"flank"+str(args['flank'])
+							"flank"+str(args['flank']),
+							current_datetime_formatted,
 							]) + ".tsv"
 
 	# BED file header creation
@@ -123,7 +127,9 @@ def main(args):
 	bedheader_desc = "_".join([lrg_object.hgnc_name,
 								lrg_object.lrg_id,
 								args['transcript'],
-								args['referencegenome']])
+								args['referencegenome'],
+								current_datetime_formatted
+								])
 	bedheader = ["track name=" + bedheader_name,
 				"description=" + bedheader_desc]
 
