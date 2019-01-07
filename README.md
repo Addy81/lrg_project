@@ -29,14 +29,14 @@ As the tool is being designed to be used in a clinical environment, extra functi
 - Fully labelled BED files and BED data rows for traceability and audit purposes.
 - Use of flags to allow integration within a pipeline or automated workflow.
 - User interface to allow simple use by staff with limited command line experience.
- 
 
+---
 
 ## Planning & Design
 Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that tools created are useful to the end user.
 
-### Compatability
-The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.
+### Compatibility
+The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.  
 It has been tested on both macOS and ubuntu-based linux operating systems. The program does run on Windows 7 but complete compatibility has not been tested.
 
 ### Documentation
@@ -69,23 +69,25 @@ Below is a flowchart showing the operational flow of the program. It is expected
 
 
 
+---
 
 ## Testing
-The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module.
+The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This llayout allows easy identification of the tests relating to each bit of code.
 
-To check coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%. Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of unwanted changes. Changes in one part of the codebase may break or change how code works elsewhere. Without tests these changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
+To check test coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage for the program. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%. Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of any program-breaking changes. Changes in one part of the codebase may break or change how code works elsewhere so it is important to regularly run tests. Without tests these unwanted changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
  
 Tests can be run with the command:
 ```python
 python3 test.py
 ```
-
+---
 
 ## Installation
 The program can simply be installed by cloning the git repository
 `git clone https://github.com/Addy81/lrg_project.git`
 There are no external dependencies or libraries used so no further installation steps are required.
 
+---
 
 ## Program Use
 The program can be used with or without flag arguments.
@@ -110,8 +112,6 @@ Short Flag | Long Flag | Description
 `-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)
 `-g` | `--gene`  | Takes an HGNC gene name as an argument (e.g MYH7)
 
-<br>
-
 #### Supplimentary Arguments
 Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference. If these are provided along with one of the flags from above, BED file generation will be completely automated.
 
@@ -119,8 +119,6 @@ Short Flag | Long Flag | Description
  --- | --- | ---
 `-t` | `--transcript` | Takes a transcript as an argument (e.g NM_000257.2)
 `-r` | `--referencegenome` |  Takes a reference genome as an argument (e.g GRCh37.p13)
-
-<br>
 
 #### Other Arguments
 These are other optional arguments which are not required for automated BED generation, but they provide functionality that may be useful.
@@ -139,16 +137,16 @@ Short Flag | Long Flag | Description
 
 2. When you know the gene name, genome version and transcript you want  
    ```python lrgparser.py -g MYH7 -r GRCh37.p13 -t NM_000257.2```  
-   As all necessary arguments for fully automated BED file generation have been provided. The UI will not run and the BED file is created with no user input  
+   As all necessary arguments for fully automated BED file generation have been provided. The UI will not run and the BED file is created with no user input.  
 3. When you have an LRG XML file, know the genome version but do not know which transcripts are available  
    ```python lrgparser.py -f LRG_384.xml -r GRCh37.p13```  
    The program will look at the XML file to find available transcripts and display the UI to prompt the user to choose one.  
 
-4. When you know the gene name and transcript, and you want a flanking region of 200 bases on each region 
+4. When you know the gene name and transcript, and you want a flanking region of 200 bases on each region  
    ```python lrgparser.py -g MYH7 -t NM_000257.2 -fl 200```  
    The program will download the appropriate LRG XML file, parse it to find available genome versions and then display the UI to prompt the user to choose one.
 
- 5. When you only know the LRG ID, but want the whole gene (both exonic and intronic regions)
+ 5. When you only know the LRG ID, but want the whole gene (both exonic and intronic regions)  
    ```python lrgparser.py -l LRG_384 -i```  
    The program will download the appropriate LRG XML file, parse it to find available genome versions and transcripts. The UI will then prompt the user for their preference.
 
