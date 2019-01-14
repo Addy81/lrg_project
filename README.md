@@ -152,9 +152,6 @@ Short Flag | Long Flag | Description
 -----------------------------MISC------------------------------------
 
 ## TO DO 
-- Check when strand is reversed - is it base inclusive? half or full indexed?  
-
-- Check whether because the exon start/stops are reversed so its small/big, that this doesnt mess up exon numbering - should they be reversed 40-1 instead of 1-40 in myh7?  
 
 - Write tests for functions.py  
 - Write tests for bedgen.py  
