@@ -9,6 +9,7 @@ from unittest.mock import patch
 import lrg_webservices as ws
 import lrgparser as lrgp
 import ui as ui
+import functions
 import xml.etree.ElementTree as ET
 
 
@@ -113,9 +114,9 @@ class LRGParserTests(TestCase):
 		self.assertEqual(lrg_object.mol_type, 'dna')
 		self.assertEqual(lrg_object.chromosome, '14')
 		self.assertEqual(lrg_object.mapped_flanked_exon_coords.get(1),
-						[23904870, 23904829])
+						[23904870, 23904828])
 		self.assertEqual(lrg_object.mapped_flanked_exon_coords.get(40),
-						[23882080, 23881947])
+						[23882080, 23881946])
 
 	def test_arg_collection(self):
 		"""Tests that arguments passed to the argument parsing function are
@@ -123,6 +124,94 @@ class LRGParserTests(TestCase):
 		"""
 		arguments = lrgp.arg_collection(['-l LRG_384'])
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
+
+class FunctionsTests(TestCase):
+	""" Tests that the functions create the correct dictionaries
+	"""
+	
+	def setUp(self):
+		self.this_directory_path = os.path.dirname(__file__)
+		self.xml_path_relative = "testfiles/LRG_384.xml"
+		self.xml_path_full = self.this_directory_path + self.xml_path_relative
+		self.xml_path_relative_pos = "testfiles/LRG_155.xml"
+		self.xml_path_full_pos = self.this_directory_path + self.xml_path_relative_pos
+
+
+	def test_get_exon_coords(self):
+		""" Tests that asses the creation of the exon_coords dictionary
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+
+		test_xml_pos = open(self.xml_path_full_pos)
+		root_pos = lrgp.get_tree_and_root_file(test_xml_pos)
+		test_xml_pos.close()
+
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		pos_transcipt_choice = 'NM_002389.4'
+
+		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcipt_choice)
+
+		self.assertEqual(type(exon_coordinates),dict)
+		self.assertEqual(len(exon_coordinates), 40)
+		self.assertEqual(exon_coordinates[1],[23904870,23904828])
+		self.assertEqual(exon_coordinates[40],[23882080,23881946])
+
+		self.assertEqual(type(pos_exon_coordinates),dict)
+		self.assertEqual(len(pos_exon_coordinates), 14)
+
+	def test_get_intron_coords(self):
+		""" Tests that asses the creation of the exon_coords dictionary
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		
+		
+		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
+		intron_coordinates = functions.get_intron_coords(exon_coordinates)
+		
+		self.assertEqual(type(intron_coordinates),dict)
+		self.assertEqual(len(intron_coordinates), 39)
+		self.assertEqual(intron_coordinates[1],[23904827,23903459])
+		self.assertEqual(intron_coordinates[39],[23882966,23882081])
+	
+	def test_get_flanked_coords(self):
+		""" Tests that asses the creation of the exon_coords dictionary
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		
+		test_xml_pos = open(self.xml_path_full_pos)
+		root_pos = lrgp.get_tree_and_root_file(test_xml_pos)
+		test_xml_pos.close()
+
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		pos_transcript_choice = 'NM_002389.4'
+		
+		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
+		flanked_coordinates = functions.get_flanked_coords(exon_coordinates, 100)
+
+		self.assertEqual(type(flanked_coordinates),dict)
+		self.assertEqual(len(flanked_coordinates), 40)
+		#self.assertEqual(flanked_coordinates[1],[207925282,207925754])
+		#self.assertEqual(flanked_coordinates[14],[207966763,207968961])
+		
+		
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
+		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates, 100)
+
+		self.assertEqual(type(pos_flanked_coordinates),dict)
+		self.assertEqual(len(pos_flanked_coordinates), 14)
+		self.assertEqual(pos_flanked_coordinates[1],[207925282,207925754])
+		self.assertEqual(pos_flanked_coordinates[14],[207966763,207968961])
 
 
 class UITests(TestCase):
@@ -209,6 +298,7 @@ class UITests(TestCase):
 		followed by returning a valid input value when provided (150) 
 		"""
 		self.assertEqual(ui.ask_flank_size(), "150")
+
 
 
 if __name__ == '__main__':

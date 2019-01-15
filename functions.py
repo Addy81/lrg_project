@@ -40,13 +40,18 @@ def get_exon_coords(root, genome_choice, transcript_choice):
                 if strand == '1':
                     exon_start = mapped_start + int(exon.attrib['lrg_start'])
                     exon_end = mapped_start + int(exon.attrib['lrg_end'])
-                    coordinates.append(exon_start)
+                    # BED files use 0-based coordinate systems so (exon_start - 1) ensures that the coordinates
+                    # follow the BED specification
+                    coordinates.append(exon_start - 1)
                     coordinates.append(exon_end)
                 elif strand == '-1':
                     exon_start = mapped_end - int(exon.attrib['lrg_start'])
                     exon_end = mapped_end - int(exon.attrib['lrg_end'])
                     coordinates.append(exon_start)
-                    coordinates.append(exon_end)
+                    # BED files use 0-based coordinate systems so (exon_end - 1) ensures that the coordinates
+                    # follow the BED specification. In the reverse strand the exon_end will be printed on the
+                    # 2nd column of the BED file as it is a smaller value than the exon_start value.
+                    coordinates.append(exon_end - 1)
                 # Coordinates are stored in a dictionary with exon numbers as 
                 # keys, with start and stop coordinates as values 
                 # i.e. {'1': [23904870, 23904829]}
