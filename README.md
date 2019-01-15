@@ -153,7 +153,6 @@ Short Flag | Long Flag | Description
 
 ## TO DO 
 
-- Write tests for functions.py  
 - Write tests for bedgen.py  
 
 ## MAYBE TO DO?
