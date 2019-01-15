@@ -150,10 +150,10 @@ class FunctionsTests(TestCase):
 
 		genome_choice = 'GRCh37.p13'
 		transcript_choice = 'NM_000257.2'
-		pos_transcipt_choice = 'NM_002389.4'
+		pos_transcript_choice = 'NM_002389.4'
 
 		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcipt_choice)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
 
 		self.assertEqual(type(exon_coordinates),dict)
 		self.assertEqual(len(exon_coordinates), 40)
@@ -169,8 +169,14 @@ class FunctionsTests(TestCase):
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
 		test_xml.close()
+
+		test_xml_pos = open(self.xml_path_full_pos)
+		root_pos = lrgp.get_tree_and_root_file(test_xml_pos)
+		test_xml_pos.close()
+
 		genome_choice = 'GRCh37.p13'
 		transcript_choice = 'NM_000257.2'
+		pos_transcript_choice = 'NM_002389.4'
 		
 		
 		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
@@ -181,6 +187,12 @@ class FunctionsTests(TestCase):
 		self.assertEqual(intron_coordinates[1],[23904827,23903459])
 		self.assertEqual(intron_coordinates[39],[23882966,23882081])
 	
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
+		pos_intron_coordinates = functions.get_intron_coords(pos_exon_coordinates)
+		
+		self.assertEqual(type(pos_intron_coordinates),dict)
+		self.assertEqual(len(pos_intron_coordinates), 13)
+
 	def test_get_flanked_coords(self):
 		""" Tests that asses the creation of the exon_coords dictionary
 		"""
@@ -204,7 +216,6 @@ class FunctionsTests(TestCase):
 		#self.assertEqual(flanked_coordinates[1],[207925282,207925754])
 		#self.assertEqual(flanked_coordinates[14],[207966763,207968961])
 		
-		
 		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
 		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates, 100)
 
@@ -212,7 +223,7 @@ class FunctionsTests(TestCase):
 		self.assertEqual(len(pos_flanked_coordinates), 14)
 		self.assertEqual(pos_flanked_coordinates[1],[207925282,207925754])
 		self.assertEqual(pos_flanked_coordinates[14],[207966763,207968961])
-
+		
 
 class UITests(TestCase):
 	"""Tests designed to test the functions contained within the
