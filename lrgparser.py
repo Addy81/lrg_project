@@ -147,7 +147,7 @@ def get_tree_and_root_file(xml_file):
 		xml_file (str): XML file path
 	Returns:
 		root (xml.etree.ElementTree): ElementTree object representing the
-										root of the XML file
+		root of the XML file
 	"""
 
 	try:
