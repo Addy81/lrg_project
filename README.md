@@ -75,8 +75,10 @@ Below is a flowchart showing the operational flow of the program. It is expected
 The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This llayout allows easy identification of the tests relating to each bit of code.
 
 To check test coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage for the program. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%.  
+
 ![Coverage Image](testfiles/coverage.jpg?raw=true "Percentage Test Coverage")
 
+Although not all of the lines of code have been tested, `coverage.py` identifies the lines which are not tested so that they can be reviewed more thoroughly.
 Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of any program-breaking changes. Changes in one part of the codebase may break or change how code works elsewhere so it is important to regularly run tests. Without tests these unwanted changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
  
 Tests can be run with the command:
