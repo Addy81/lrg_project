@@ -65,6 +65,13 @@ class LRGParserTests(TestCase):
 		root = lrgp.get_tree_and_root_file(str(self.xml_path_full))
 		self.assertEqual(root.tag, "lrg")
 
+	def test_invalid_get_tree_and_root_file(self):
+		"""Tests that a file passed to the get_tree_and_root_file 
+		function returns a root object with a single root tag - "lrg"
+		"""
+		with self.assertRaises(SystemExit) as se:
+			lrgp.get_tree_and_root_file(str("fakefilepath"))
+
 	def test_get_tree_and_root_string(self):
 		"""Tests that a string passed to the get_tree_and_root_string
 		function returns a root object with a single root tag - "lrg"
@@ -131,7 +138,39 @@ class LRGParserTests(TestCase):
 		arguments = lrgp.arg_collection(['-l LRG_384'])
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
-class  BedgenTests(TestCase):
+
+	def test_automated_main(self):
+		"""Tests the lrgparser main() function using sufficient arguments
+		for automated BED file generation
+		"""
+		arguments_full = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml", 
+											"-r", "GRCh37.p13", 
+											"-t", "NM_000257.2"])
+		arguments_full_introns = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml",
+													"-r", "GRCh37.p13",
+													"-t", "NM_000257.2", 
+													"-i"])
+		arguments_full_flank = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml",
+													"-r", "GRCh37.p13",
+													"-t", "NM_000257.2",
+													"-fl", "200"])
+		self.assertEqual(lrgp.main(arguments_full), True)
+		self.assertEqual(lrgp.main(arguments_full_introns), True)
+		self.assertEqual(lrgp.main(arguments_full_flank), True)
+
+
+	@patch('ui.input', side_effect=["MYH7", "1", "1", "0", "y"])
+	@patch('os.system', return_value="")
+	def test_nonautomated_main(self, input, system):
+		"""Tests the lrgparser main() function using insufficient arguments
+		for automated BED file generation
+		"""
+		arguments = lrgp.arg_collection([])
+		self.assertEqual(lrgp.main(arguments), True)
+
+
+
+class BedgenTests(TestCase):
 	"""Tests to designed to test the functions contained within the
 	bedgen.py file.
 	"""
@@ -179,6 +218,7 @@ class  BedgenTests(TestCase):
 		os.remove(filepath)
 		with self.assertRaises(SystemExit) as se:
 			bg.write_bed_file(None, bedheader, bedcontents)
+
 
 
 class FunctionsTests(TestCase):
