@@ -243,10 +243,13 @@ class FunctionsTests(TestCase):
 
 class UITests(TestCase):
 	"""Tests designed to test the functions contained within the
-	ui.py file. User input with input() is simulated using unittest.mock
+	ui.py file. User input with input() is simulated using the @patch
+	decorator from unittest.mock
 	"""
 
 	def setUp(self):
+		"""Create some dictionaries to be used as arguments in the tests.
+		"""
 		self.args_none = {'file': None, 'geneid': None, 'lrgid': None}
 		self.args = {'file': "test", 'geneid': "7577", 'lrgid': "LRG_384"}
 
