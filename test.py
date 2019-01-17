@@ -9,6 +9,7 @@ from unittest.mock import patch
 import lrg_webservices as ws
 import lrgparser as lrgp
 import ui as ui
+import bedgen as bg
 import functions
 import xml.etree.ElementTree as ET
 
@@ -31,6 +32,11 @@ class WebServicesTests(TestCase):
 		"""Checks that a SystemExit is raised when invalid input is provided"""
 		with self.assertRaises(SystemExit) as se:
 			ws.search_by_hgnc("invalid_hgnc")
+
+	def test_invalid_search_by_lrg(self):
+		"""Checks that a SystemExit is raised when invalid input is provided"""
+		with self.assertRaises(SystemExit) as se:
+			ws.search_by_lrg("invalid_lrg")
 
 	def test_lrg_xml_file(self):
 		"""Checks that the LRG file returned by the LRG website has the 
@@ -125,6 +131,56 @@ class LRGParserTests(TestCase):
 		arguments = lrgp.arg_collection(['-l LRG_384'])
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
+class  BedgenTests(TestCase):
+	"""Tests to designed to test the functions contained within the
+	bedgen.py file.
+	"""
+	def setUp(self):
+		self.this_directory_path = os.path.dirname(__file__)
+		self.xml_path_relative = "testfiles/LRG_384.xml"
+		self.xml_path_full = self.this_directory_path + self.xml_path_relative
+	
+
+	def test_create_bed_contents(self):
+		"""Tests that the contents of the BED file are correctly generated
+		with accurate values
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		flank = 0
+		lrg_object = lrgp.lrg_object_creator(root,
+										genome_choice,
+										transcript_choice,
+										flank)
+		bedcontents_nointrons = bg.create_bed_contents(lrg_object, False)
+		bedcontents_introns = bg.create_bed_contents(lrg_object, True)
+		self.assertEqual(len(bedcontents_nointrons), 40)
+		self.assertEqual(len(bedcontents_introns), 79)
+		self.assertEqual(bedcontents_nointrons[0], 
+						['chr14', 23904828, 23904870, "Exon_1"])
+		self.assertEqual(bedcontents_nointrons[39], 
+						['chr14', 23881946, 23882080, "Exon_40"])
+		self.assertEqual(bedcontents_introns[40],
+						['chr14', 23903459, 23904827, 'Intron_1'])
+		self.assertEqual(bedcontents_introns[78],
+						['chr14', 23882081, 23882966, 'Intron_39'])
+
+	def test_write_bed_file(self):
+		"""Tests that the BED file can be written to the local disk"""
+		filepath = "testfilename"
+		bedheader = ["header_item_1", "header_item_2"]
+		bedcontents = [['chr14', 23881946, 23882080, "Exon_1"],
+						['chr14', 23881946, 23882080, "Exon_40"]]
+		success = bg.write_bed_file(filepath, bedheader, bedcontents)
+		self.assertEqual(success, True)
+		os.remove(filepath)
+		with self.assertRaises(SystemExit) as se:
+			bg.write_bed_file(None, bedheader, bedcontents)
+
+
 class FunctionsTests(TestCase):
 	""" Tests that the functions that handle exon and intron coordinates
 	create dictionaries containing the correct values.
@@ -133,12 +189,9 @@ class FunctionsTests(TestCase):
 	def setUp(self):
 		self.this_directory_path = os.path.dirname(__file__)
 		self.xml_path_relative = "testfiles/LRG_384.xml"
-		self.xml_path_full = self.this_directory_path + 
-								self.xml_path_relative
+		self.xml_path_full = self.this_directory_path + self.xml_path_relative
 		self.xml_path_relative_pos = "testfiles/LRG_155.xml"
-		self.xml_path_full_pos = self.this_directory_path + 
-									self.xml_path_relative_pos
-
+		self.xml_path_full_pos = self.this_directory_path + self.xml_path_relative_pos
 
 	def test_get_exon_coords(self):
 		""" Tests that assess the creation of the exon_coords dictionary
