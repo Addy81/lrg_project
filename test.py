@@ -126,7 +126,8 @@ class LRGParserTests(TestCase):
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
 class FunctionsTests(TestCase):
-	""" Tests that the functions create the correct dictionaries
+	""" Tests that the functions that handle exon and intron coordinates
+	create dictionaries containing the correct values.
 	"""
 	
 	def setUp(self):
@@ -138,7 +139,7 @@ class FunctionsTests(TestCase):
 
 
 	def test_get_exon_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that assess the creation of the exon_coords dictionary
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
@@ -164,7 +165,7 @@ class FunctionsTests(TestCase):
 		self.assertEqual(len(pos_exon_coordinates), 14)
 
 	def test_get_intron_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that assess the creation of the intron_coords dictionary
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
@@ -194,7 +195,8 @@ class FunctionsTests(TestCase):
 		self.assertEqual(len(pos_intron_coordinates), 13)
 
 	def test_get_flanked_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that asses the creation of the exon_coords dictionary when
+		flanking regions are used.
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
