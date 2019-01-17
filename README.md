@@ -89,7 +89,7 @@ python3 test.py
 
 ## Installation
 The program can simply be installed by cloning the git repository.  
-`git clone https://github.com/Addy81/lrg_project.git`
+`git clone https://github.com/Addy81/lrg_project.git`  
 There are no external dependencies or libraries used so no further installation steps are required.
 
 ---
@@ -153,14 +153,3 @@ Short Flag | Long Flag | Description
  5. When you only know the LRG ID, but want the whole gene (both exonic and intronic regions)  
    ```python lrgparser.py -l LRG_384 -i```  
    The program will download the appropriate LRG XML file, parse it to find available genome versions and transcripts. The UI will then prompt the user for their preference.
-
------------------------------MISC------------------------------------
-
-## TO DO 
-
-- Write tests for bedgen.py  
-
-## MAYBE TO DO?
-- Make log files when generating a file?  
-
-- Mention differences between Unit testing, integration testing, functional testing  
