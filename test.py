@@ -228,8 +228,6 @@ class FunctionsTests(TestCase):
 
 		self.assertEqual(type(flanked_coordinates),dict)
 		self.assertEqual(len(flanked_coordinates), 40)
-		#self.assertEqual(flanked_coordinates[1],[207925282,207925754])
-		#self.assertEqual(flanked_coordinates[14],[207966763,207968961])
 		
 		pos_exon_coordinates = functions.get_exon_coords(root_pos,
 														genome_choice,
