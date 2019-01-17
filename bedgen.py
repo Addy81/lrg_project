@@ -65,6 +65,7 @@ def write_bed_file(filetowrite, bedheader, bedcontents):
 		print("")
 		print("    BED file successfully written to " +  filetowrite)
 		print("")
+		return True
 	except:
 		print("    Could not write BED file. Check write permissions")
 		raise SystemExit
