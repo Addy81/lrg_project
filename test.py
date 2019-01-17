@@ -133,9 +133,11 @@ class FunctionsTests(TestCase):
 	def setUp(self):
 		self.this_directory_path = os.path.dirname(__file__)
 		self.xml_path_relative = "testfiles/LRG_384.xml"
-		self.xml_path_full = self.this_directory_path + self.xml_path_relative
+		self.xml_path_full = self.this_directory_path + 
+								self.xml_path_relative
 		self.xml_path_relative_pos = "testfiles/LRG_155.xml"
-		self.xml_path_full_pos = self.this_directory_path + self.xml_path_relative_pos
+		self.xml_path_full_pos = self.this_directory_path + 
+									self.xml_path_relative_pos
 
 
 	def test_get_exon_coords(self):
@@ -153,8 +155,12 @@ class FunctionsTests(TestCase):
 		transcript_choice = 'NM_000257.2'
 		pos_transcript_choice = 'NM_002389.4'
 
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
 
 		self.assertEqual(type(exon_coordinates),dict)
 		self.assertEqual(len(exon_coordinates), 40)
@@ -180,7 +186,9 @@ class FunctionsTests(TestCase):
 		pos_transcript_choice = 'NM_002389.4'
 		
 		
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
 		intron_coordinates = functions.get_intron_coords(exon_coordinates)
 		
 		self.assertEqual(type(intron_coordinates),dict)
@@ -188,7 +196,9 @@ class FunctionsTests(TestCase):
 		self.assertEqual(intron_coordinates[1],[23904827,23903459])
 		self.assertEqual(intron_coordinates[39],[23882966,23882081])
 	
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
 		pos_intron_coordinates = functions.get_intron_coords(pos_exon_coordinates)
 		
 		self.assertEqual(type(pos_intron_coordinates),dict)
@@ -210,16 +220,22 @@ class FunctionsTests(TestCase):
 		transcript_choice = 'NM_000257.2'
 		pos_transcript_choice = 'NM_002389.4'
 		
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
-		flanked_coordinates = functions.get_flanked_coords(exon_coordinates, 100)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
+		flanked_coordinates = functions.get_flanked_coords(exon_coordinates,
+															100)
 
 		self.assertEqual(type(flanked_coordinates),dict)
 		self.assertEqual(len(flanked_coordinates), 40)
 		#self.assertEqual(flanked_coordinates[1],[207925282,207925754])
 		#self.assertEqual(flanked_coordinates[14],[207966763,207968961])
 		
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
-		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates, 100)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
+		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates,
+																100)
 
 		self.assertEqual(type(pos_flanked_coordinates),dict)
 		self.assertEqual(len(pos_flanked_coordinates), 14)
