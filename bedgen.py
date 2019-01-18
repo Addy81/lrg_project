@@ -1,6 +1,13 @@
 
 
+"""
+This module contains functions for creating the contents of the BED file and
+writing it to disk
+"""
+
+
 import csv
+
 
 def create_bed_contents(lrg_object, introns_choice):
 	"""Creates the contents for the BED file. Returns a nested list with
@@ -27,7 +34,7 @@ def create_bed_contents(lrg_object, introns_choice):
 			pass
 		bedcontents.append([chromosome, start, end, label])
 	
-	# Adds intron rows
+	# Adds intron rows if specified on the command line or in the UI
 	if introns_choice == True:
 		for item in lrg_object.mapped_intron_coords:
 			chromosome = "chr"+lrg_object.chromosome

@@ -1,4 +1,11 @@
 
+
+"""
+This module contains functions that display the UI when running the program
+without the flags necessary for automated BED generation.
+"""
+
+
 import os
 
 
@@ -6,7 +13,7 @@ def determine_if_show_ui(args):
 	"""Determines whether the ui should be shown, based on the arguments
 	provided. If the user has provided a file, lrgid or geneid argument flag
 	to the program, the	UI is NOT shown, unless required for safety reasons
-	(selecting the transcript or genome build when one has not been provided). 
+	(selecting the transcript or genome build when one has not been provided).
 	
 	Args:
 		args (dict): Dictionary containing command line arguments
@@ -64,6 +71,7 @@ def ask_which_genome_build(genomebuilds):
 		counter +=1		
 	print("")
 	validinput = False
+	# This loops unless the user provides a valid input
 	while validinput == False:
 		choice = input()
 		try:
@@ -77,6 +85,8 @@ def ask_which_genome_build(genomebuilds):
 	print("")
 	print("    Genome Build choice: " + genomebuilds[choice_int-1])
 	print("")
+	# The user input (1 or 2 or 3 etc) is matched to the genome build.
+	# 1 is subtracted as the list is 0-indexed.
 	genome_choice = genomebuilds[choice_int-1]
 	return genome_choice
 
@@ -99,6 +109,7 @@ def ask_which_transcript(transcripts):
 		counter +=1
 	print("")
 	validinput = False
+	# This loops unless the user provides a valid input
 	while validinput == False:
 		choice = input()
 		try:
@@ -113,6 +124,8 @@ def ask_which_transcript(transcripts):
 	print("")
 	print("    Transcript choice: " + transcripts[choice_int-1])
 	print("")
+	# The user input (1 or 2 or 3 etc) is matched to the transcript.
+	# 1 is subtracted as the list is 0-indexed.
 	transcript_choice = transcripts[choice_int-1]
 	return transcript_choice
 
@@ -130,6 +143,7 @@ def ask_include_introns():
 	print("     Y/N")
 	print("")
 	validinput = False
+	# This loops unless the user provides a valid input
 	while validinput == False:
 		choice = input()
 		if choice == "Y" or choice == "y":
@@ -159,6 +173,7 @@ def ask_flank_size():
 	print("       e.g 0 for no flanking region")
 	print("")
 	validinput = False
+	# This loops unless the user provides a valid input
 	while validinput == False:
 		choice = input()
 		try:

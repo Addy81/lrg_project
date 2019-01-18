@@ -1,7 +1,9 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
 
-"""Module containing exon/intron extraction and calculation functions."""
+
+"""
+This module contains functions for extracting and handling exon and intron
+coordinates
+"""
 
 
 import xml.etree.ElementTree as ET 

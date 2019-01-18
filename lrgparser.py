@@ -1,19 +1,25 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
+
+
+"""
+The main script. It contains the program logic, flow control and XML parsing
+functions. Other functions are grouped together by theme into separate files.
+These are then imported as modules.
+"""
+
 
 import argparse
 import os
 import sys
 import datetime
 
-# Import of local python scripts. 
+# Import of local python modules. 
 # bedgen contains the BED file generating functions
 import bedgen 
 # functions contains the exon extraction functions.
 import functions
 # ui contains the terminal UI functions.  
 import ui 
-# lrg_webservices contains the terminal UI functions.  
+# webservices contains the terminal UI functions.  
 import webservices
 
 # XML Related Imports
@@ -35,15 +41,18 @@ class LRG_Object:
 
 
 def main(args):
-	"""Main function. Runs the UI and handles user choices. Calls appropriate
-	external functions based on responses.
+	"""Main function. Runs the UI if necessary to collect infomration about
+	which genome version and transcript to use. Uses external modules to 
+	perform API queries, extract coordinates and write BED files.
+
+	Args:
+		args (dict): A dictionary containing the command line arguments.
 	"""
 
 	show_ui = ui.determine_if_show_ui(args)
 
 	# If a file is provided, check whether it is valid
 	if args['file'] != None:
-		# TODO add some file checking stuff
 		# Obtain the root from the XML file
 		root = get_tree_and_root_file(args['file'])
 
@@ -192,6 +201,8 @@ def get_genome_builds(root):
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
 		if source == "lrg":
+			# Loop through transcript tags to collect the different genome
+			# builds available
 			for transcript in transcript_type:
 				if transcript.tag == "mapping":
 					genomebuild = transcript.attrib["coord_system"]
@@ -215,6 +226,8 @@ def get_transcript_ids(root):
 	for transcript_type in root.iter('annotation_set'):
 		source = transcript_type.attrib["type"]
 		if source == "ncbi" or source == "ensembl":
+			# Loop through transcript tags to collect the different 
+			# transcripts available
 			for transcript in transcript_type:
 				if transcript.tag == "mapping":
 					transcript_id = transcript.attrib["coord_system"]
