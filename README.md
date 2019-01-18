@@ -33,14 +33,14 @@ As the tool is being designed to be used in a clinical environment, extra functi
 ---
 
 ## Planning & Design
-Ensuring that  software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, tracability, validation and verification are all important. These are also investigated by Laboratory accrediation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that tools created are useful to the end user.
+Ensuring that software is developed according to best practice guidelines and testing is performed is essential when working in a clinical environment. Code that has not been written well, checked, reviewed and documented can pose a hazard to patient safety. Documentation availability, traceability, validation and verification are all important. These are also investigated by Laboratory accreditation body UKAS when assessing conformity with ISO15189 and so compliance is essential to ensure successful accreditation. The [ACGS Guidelines for Development and Validation of Software](http://www.acgs.uk.com/media/1025075/ngs_bioinformatics_bpg_final_version_2016.pdf) have also been followed. The application has been developed using the [PEP8 style guidelines](https://www.python.org/dev/peps/pep-0008/) to ensure that code is clearly formatted and readable. Some development decisions were made after seeking feedback from potential users. For example, the option to include introns or not was created after speaking with a Clinical Scientist about whether that would be a useful feature. This shows how feedback is important to ensure that the tools created are useful to the end user.
 
 ### Compatibility
 The application is compatible with Python 3 only. This decision was made as Python 2 will be unsupported in the near future.  
 It has been tested on both macOS and ubuntu-based linux operating systems. The program does run on Windows 7 but complete compatibility has not been tested.
 
 ### Documentation
-Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as it's limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplimentary information about short sections of code.
+Documentation is important when creating any software application, but is essential for software in a clinical environment. Knowing how to use a tool, as well as its limitations, output formats and other details are necessary for safe use. The output format of this tool and instructions on it's use are documented in this README file. Other documentation for code reviewers and developers is maintained within the codebase itself. Docstrings have been used to provide information on the roles of functions, and line comments provide supplementary information about short sections of code.
 
 ### Software Safety
 It is essential when writing software in a clinical environment that any data used or created is recorded to provide a trackable audit trail. To ensure that this trail is made, all BED files created by this tool are saved with a filename that includes all appropriate information:
@@ -55,7 +55,7 @@ There are two other optional flags. These are not required for automated BED gen
 The program can also be run with no flags at all, which uses a terminal based UI to collect the information. If a user also provides flags which are incomplete, the UI will prompt the user for the missing items. The tool will not output a BED file unless the minimum safe information is provided. Flag use is detailed in [Program Use](#program-use) below.
 
 ### External Packages and Dependencies
-When planning the development, multiple python packages were investigated to fulfill particular functions. For example, lxml is a package which builds upon the functionality offered by the etree.ElementTree package. It provides some enhanced functionality and a slightly simpler interface, but as it is not included in the python standard library it requires installation. This is generally straightforward, but compatibility issues can arise when using different operating systems, such as Windows, where lxml cannot be installed solely using `pip`.
+When planning the development, multiple python packages were investigated to fulfil particular functions. For example, lxml is a package which builds upon the functionality offered by the etree.ElementTree package. It provides some enhanced functionality and a slightly simpler interface, but as it is not included in the python standard library it requires installation. This is generally straightforward, but compatibility issues can arise when using different operating systems, such as Windows, where lxml cannot be installed solely using `pip`.
 
 As the xml processing performed by this tool is simple, it was determined that using etree.ElementTree was sufficient and the compatibility and external package management overhead required for lxml was unnecessary.
 
@@ -72,9 +72,14 @@ Below is a flowchart showing the operational flow of the program. It is expected
 ---
 
 ## Testing
-The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This llayout allows easy identification of the tests relating to each bit of code.
+The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This layout allows easy identification of the tests relating to each bit of code.
 
-To check test coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage for the program. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%. Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of any program-breaking changes. Changes in one part of the codebase may break or change how code works elsewhere so it is important to regularly run tests. Without tests these unwanted changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
+To check test coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage for the program. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%.  
+
+![Coverage Image](testfiles/coverage.jpg?raw=true "Percentage Test Coverage")
+
+Although not all of the lines of code have been tested, `coverage.py` identifies the lines which are not tested so that they can be reviewed more thoroughly.
+Having a high level of test coverage is essential when developing software, as it allows accurate and efficient detection of any program-breaking changes. Changes in one part of the codebase may break or change how code works elsewhere so it is important to regularly run tests. Without tests, these unwanted changes may go unnoticed and lead to situations where inaccurate BED files are used, which is unacceptable in a clinical environment.
  
 Tests can be run with the command:
 ```python
@@ -84,7 +89,7 @@ python3 test.py
 
 ## Installation
 The program can simply be installed by cloning the git repository.  
-`git clone https://github.com/Addy81/lrg_project.git`
+`git clone https://github.com/Addy81/lrg_project.git`  
 There are no external dependencies or libraries used so no further installation steps are required.
 
 ---
@@ -95,7 +100,7 @@ The program can be used with or without flag arguments.
 ```python
 python lrgparser.py
 ```
-As no arguments have been provided, the program loads the UI and prompts the user for a gene, desired genome version\* and desired transcript\*.  
+As no arguments have been provided, the program loads the UI and prompts the user for a gene, a desired genome version\* and a desired transcript\*.  
 \**These are extracted from the LRG file which will be downloaded, no knowledge about available transcripts is required by the user.*
 
 
@@ -111,8 +116,8 @@ Short Flag | Long Flag | Description
 `-l` | `--lrgid`  | Takes an LRG ID as an argument (e.g LRG_384)
 `-g` | `--gene`  | Takes an HGNC gene name as an argument (e.g MYH7)
 
-#### Supplimentary Arguments
-Additional flags can be used to indicate the desired reference genome version or desired transcript. If these are not given, the UI will ask the user for their preference. If these are provided along with one of the flags from above, BED file generation will be completely automated.
+#### Supplementary Arguments
+Additional flags can be used to indicate the desired reference genome version or the desired transcript. If these are not given, the UI will ask the user for their preference. If these are provided along with one of the flags from above, BED file generation will be completely automated.
 
 Short Flag | Long Flag | Description
  --- | --- | ---
@@ -148,15 +153,3 @@ Short Flag | Long Flag | Description
  5. When you only know the LRG ID, but want the whole gene (both exonic and intronic regions)  
    ```python lrgparser.py -l LRG_384 -i```  
    The program will download the appropriate LRG XML file, parse it to find available genome versions and transcripts. The UI will then prompt the user for their preference.
-
------------------------------MISC------------------------------------
-
-## TO DO 
-
-- Write tests for functions.py  
-- Write tests for bedgen.py  
-
-## MAYBE TO DO?
-- Make log files when generating a file?  
-
-- Mention differences between Unit testing, integration testing, functional testing  

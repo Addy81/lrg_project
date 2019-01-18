@@ -9,6 +9,7 @@ from unittest.mock import patch
 import lrg_webservices as ws
 import lrgparser as lrgp
 import ui as ui
+import bedgen as bg
 import functions
 import xml.etree.ElementTree as ET
 
@@ -31,6 +32,11 @@ class WebServicesTests(TestCase):
 		"""Checks that a SystemExit is raised when invalid input is provided"""
 		with self.assertRaises(SystemExit) as se:
 			ws.search_by_hgnc("invalid_hgnc")
+
+	def test_invalid_search_by_lrg(self):
+		"""Checks that a SystemExit is raised when invalid input is provided"""
+		with self.assertRaises(SystemExit) as se:
+			ws.search_by_lrg("invalid_lrg")
 
 	def test_lrg_xml_file(self):
 		"""Checks that the LRG file returned by the LRG website has the 
@@ -58,6 +64,13 @@ class LRGParserTests(TestCase):
 		"""
 		root = lrgp.get_tree_and_root_file(str(self.xml_path_full))
 		self.assertEqual(root.tag, "lrg")
+
+	def test_invalid_get_tree_and_root_file(self):
+		"""Tests that a file passed to the get_tree_and_root_file 
+		function returns a root object with a single root tag - "lrg"
+		"""
+		with self.assertRaises(SystemExit) as se:
+			lrgp.get_tree_and_root_file(str("fakefilepath"))
 
 	def test_get_tree_and_root_string(self):
 		"""Tests that a string passed to the get_tree_and_root_string
@@ -125,8 +138,92 @@ class LRGParserTests(TestCase):
 		arguments = lrgp.arg_collection(['-l LRG_384'])
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
+
+	def test_automated_main(self):
+		"""Tests the lrgparser main() function using sufficient arguments
+		for automated BED file generation
+		"""
+		arguments_full = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml", 
+											"-r", "GRCh37.p13", 
+											"-t", "NM_000257.2"])
+		arguments_full_introns = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml",
+													"-r", "GRCh37.p13",
+													"-t", "NM_000257.2", 
+													"-i"])
+		arguments_full_flank = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml",
+													"-r", "GRCh37.p13",
+													"-t", "NM_000257.2",
+													"-fl", "200"])
+		self.assertEqual(lrgp.main(arguments_full), True)
+		self.assertEqual(lrgp.main(arguments_full_introns), True)
+		self.assertEqual(lrgp.main(arguments_full_flank), True)
+
+
+	@patch('ui.input', side_effect=["MYH7", "1", "1", "0", "y"])
+	@patch('os.system', return_value="")
+	def test_nonautomated_main(self, input, system):
+		"""Tests the lrgparser main() function using insufficient arguments
+		for automated BED file generation
+		"""
+		arguments = lrgp.arg_collection([])
+		self.assertEqual(lrgp.main(arguments), True)
+
+
+
+class BedgenTests(TestCase):
+	"""Tests to designed to test the functions contained within the
+	bedgen.py file.
+	"""
+	def setUp(self):
+		self.this_directory_path = os.path.dirname(__file__)
+		self.xml_path_relative = "testfiles/LRG_384.xml"
+		self.xml_path_full = self.this_directory_path + self.xml_path_relative
+	
+
+	def test_create_bed_contents(self):
+		"""Tests that the contents of the BED file are correctly generated
+		with accurate values
+		"""
+		test_xml = open(self.xml_path_full)
+		root = lrgp.get_tree_and_root_file(test_xml)
+		test_xml.close()
+		genome_choice = 'GRCh37.p13'
+		transcript_choice = 'NM_000257.2'
+		flank = 0
+		lrg_object = lrgp.lrg_object_creator(root,
+										genome_choice,
+										transcript_choice,
+										flank)
+		bedcontents_nointrons = bg.create_bed_contents(lrg_object, False)
+		bedcontents_introns = bg.create_bed_contents(lrg_object, True)
+		self.assertEqual(len(bedcontents_nointrons), 40)
+		self.assertEqual(len(bedcontents_introns), 79)
+		self.assertEqual(bedcontents_nointrons[0], 
+						['chr14', 23904828, 23904870, "Exon_1"])
+		self.assertEqual(bedcontents_nointrons[39], 
+						['chr14', 23881946, 23882080, "Exon_40"])
+		self.assertEqual(bedcontents_introns[40],
+						['chr14', 23903459, 23904827, 'Intron_1'])
+		self.assertEqual(bedcontents_introns[78],
+						['chr14', 23882081, 23882966, 'Intron_39'])
+
+	def test_write_bed_file(self):
+		"""Tests that the BED file can be written to the local disk"""
+		filepath = "testfilename"
+		bedheader = ["header_item_1", "header_item_2"]
+		bedcontents = [['chr14', 23881946, 23882080, "Exon_1"],
+						['chr14', 23881946, 23882080, "Exon_40"]]
+		success = bg.write_bed_file(filepath, bedheader, bedcontents)
+		self.assertEqual(success, True)
+		os.remove(filepath)
+		with self.assertRaises(SystemExit) as se:
+			bg.write_bed_file(None, bedheader, bedcontents)
+
+
+
 class FunctionsTests(TestCase):
-	""" Tests that the functions create the correct dictionaries
+	""" Tests that the functions that handle exon and intron coordinates
+	create dictionaries containing the correct values.
 	"""
 	
 	def setUp(self):
@@ -136,9 +233,8 @@ class FunctionsTests(TestCase):
 		self.xml_path_relative_pos = "testfiles/LRG_155.xml"
 		self.xml_path_full_pos = self.this_directory_path + self.xml_path_relative_pos
 
-
 	def test_get_exon_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that assess the creation of the exon_coords dictionary
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
@@ -150,10 +246,14 @@ class FunctionsTests(TestCase):
 
 		genome_choice = 'GRCh37.p13'
 		transcript_choice = 'NM_000257.2'
-		pos_transcipt_choice = 'NM_002389.4'
+		pos_transcript_choice = 'NM_002389.4'
 
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcipt_choice)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
 
 		self.assertEqual(type(exon_coordinates),dict)
 		self.assertEqual(len(exon_coordinates), 40)
@@ -164,16 +264,24 @@ class FunctionsTests(TestCase):
 		self.assertEqual(len(pos_exon_coordinates), 14)
 
 	def test_get_intron_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that assess the creation of the intron_coords dictionary
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
 		test_xml.close()
+
+		test_xml_pos = open(self.xml_path_full_pos)
+		root_pos = lrgp.get_tree_and_root_file(test_xml_pos)
+		test_xml_pos.close()
+
 		genome_choice = 'GRCh37.p13'
 		transcript_choice = 'NM_000257.2'
+		pos_transcript_choice = 'NM_002389.4'
 		
 		
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
 		intron_coordinates = functions.get_intron_coords(exon_coordinates)
 		
 		self.assertEqual(type(intron_coordinates),dict)
@@ -181,8 +289,17 @@ class FunctionsTests(TestCase):
 		self.assertEqual(intron_coordinates[1],[23904827,23903459])
 		self.assertEqual(intron_coordinates[39],[23882966,23882081])
 	
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
+		pos_intron_coordinates = functions.get_intron_coords(pos_exon_coordinates)
+		
+		self.assertEqual(type(pos_intron_coordinates),dict)
+		self.assertEqual(len(pos_intron_coordinates), 13)
+
 	def test_get_flanked_coords(self):
-		""" Tests that asses the creation of the exon_coords dictionary
+		""" Tests that asses the creation of the exon_coords dictionary when
+		flanking regions are used.
 		"""
 		test_xml = open(self.xml_path_full)
 		root = lrgp.get_tree_and_root_file(test_xml)
@@ -196,30 +313,36 @@ class FunctionsTests(TestCase):
 		transcript_choice = 'NM_000257.2'
 		pos_transcript_choice = 'NM_002389.4'
 		
-		exon_coordinates = functions.get_exon_coords(root,genome_choice,transcript_choice)
-		flanked_coordinates = functions.get_flanked_coords(exon_coordinates, 100)
+		exon_coordinates = functions.get_exon_coords(root,
+													genome_choice,
+													transcript_choice)
+		flanked_coordinates = functions.get_flanked_coords(exon_coordinates,
+															100)
 
 		self.assertEqual(type(flanked_coordinates),dict)
 		self.assertEqual(len(flanked_coordinates), 40)
-		#self.assertEqual(flanked_coordinates[1],[207925282,207925754])
-		#self.assertEqual(flanked_coordinates[14],[207966763,207968961])
 		
-		
-		pos_exon_coordinates = functions.get_exon_coords(root_pos,genome_choice,pos_transcript_choice)
-		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates, 100)
+		pos_exon_coordinates = functions.get_exon_coords(root_pos,
+														genome_choice,
+														pos_transcript_choice)
+		pos_flanked_coordinates = functions.get_flanked_coords(pos_exon_coordinates,
+																100)
 
 		self.assertEqual(type(pos_flanked_coordinates),dict)
 		self.assertEqual(len(pos_flanked_coordinates), 14)
 		self.assertEqual(pos_flanked_coordinates[1],[207925282,207925754])
 		self.assertEqual(pos_flanked_coordinates[14],[207966763,207968961])
-
+		
 
 class UITests(TestCase):
 	"""Tests designed to test the functions contained within the
-	ui.py file. User input with input() is simulated using unittest.mock
+	ui.py file. User input with input() is simulated using the @patch
+	decorator from unittest.mock
 	"""
 
 	def setUp(self):
+		"""Create some dictionaries to be used as arguments in the tests.
+		"""
 		self.args_none = {'file': None, 'geneid': None, 'lrgid': None}
 		self.args = {'file': "test", 'geneid': "7577", 'lrgid': "LRG_384"}
 

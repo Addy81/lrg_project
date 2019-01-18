@@ -139,6 +139,7 @@ def main(args):
 	# Write the BED contents to disk
 	bed_file = bedgen.write_bed_file(bed_filename, bedheader, bedcontents)
 
+	return bed_file
 
 def get_tree_and_root_file(xml_file):
 	"""Returns the XML tree and root when provided with an XML file
