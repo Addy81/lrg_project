@@ -70,7 +70,8 @@ This choice does not mean that use of external packages should be discouraged, j
 
 ### Modularity
 The code has been separated into modules in distinct python files, each containing related functions (BED functions, UI functions, exon coordinate functions and web API functions. They are imported into the main LRG_parser.py file and functions within them are invoked by referencing `module.function_name()`.  This creates an uncluttered working environment, gives context to the use of particular functions, and modularity of code allows easy reuse in other projects. All functions perform single, distinct operations, meaning that tests can identify issues on a granular level.
-Below is a diagram showing the layout of the 
+Below is a diagram showing the modular design of the program.
+![Program Design](images/ProgramDesign.jpg?raw=true "Program Design")
 
 ### Flowchart
 Below is a link to a flowchart showing the operational flow of the program. It is expected that this can be used by future developers or maintainers.
