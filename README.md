@@ -70,16 +70,17 @@ This choice does not mean that use of external packages should be discouraged, j
 
 ### Modularity
 The code has been separated into modules in distinct python files, each containing related functions (BED functions, UI functions, exon coordinate functions and web API functions. They are imported into the main LRG_parser.py file and functions within them are invoked by referencing `module.function_name()`.  This creates an uncluttered working environment, gives context to the use of particular functions, and modularity of code allows easy reuse in other projects. All functions perform single, distinct operations, meaning that tests can identify issues on a granular level.
+Below is a diagram showing the layout of the 
 
 ### Flowchart
 Below is a link to a flowchart showing the operational flow of the program. It is expected that this can be used by future developers or maintainers.
-![Program Flowchart](images/ProgramFlowchart.jpg?raw=true "Program Flowchart")
+[Program Flowchart](images/ProgramFlowchart.jpg?raw=true "Program Flowchart")
 
 
 ---
 
 ## Testing and Test Coverage
-The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, lrg_webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This layout allows easy identification of the tests relating to each bit of code.
+The Python library `unittest` has been used when writing tests. The test script is divided into separate classes for each module (ui.py, webservices.py, etc). Within each class, tests have been written for all of the functions within the specified module. This layout allows easy identification of the tests relating to each bit of code.
 
 To check test coverage, the Python tool `coverage.py` [(link)](https://coverage.readthedocs.io/en/v4.5.x/) was used. This runs through the test.py file, and records the level of test coverage for the program. Below is the output for `coverage.py`. Test coverage levels for most of the modules written for the program are 100%.  
 

@@ -6,7 +6,7 @@ import unittest
 from unittest import TestCase
 from unittest.mock import patch
 
-import lrg_webservices as ws
+import webservices as ws
 import lrgparser as lrgp
 import ui as ui
 import bedgen as bg
@@ -16,7 +16,7 @@ import xml.etree.ElementTree as ET
 
 class WebServicesTests(TestCase):
 	"""Tests designed to test the functions contained within the
-	lrg_webservices.py file.
+	webservices.py file.
 	"""
 	
 	def setUp(self):

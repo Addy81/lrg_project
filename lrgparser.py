@@ -14,7 +14,7 @@ import functions
 # ui contains the terminal UI functions.  
 import ui 
 # lrg_webservices contains the terminal UI functions.  
-import lrg_webservices
+import webservices
 
 # XML Related Imports
 import xml.etree.ElementTree as ET
@@ -58,12 +58,12 @@ def main(args):
 
 		# Obtain an LRG ID using Gene ID, only if no LRG ID has been provided
 		if 	args['geneid'] != None and args['lrgid'] == None:
-			searchresults = lrg_webservices.search_by_hgnc(args['geneid'])
+			searchresults = webservices.search_by_hgnc(args['geneid'])
 			args['lrgid'] =  searchresults 
 
 		# At this point, the program has an LRG ID and can use this to obtain
 		# an XML from the LRG-sequence.org site
-		lrg_xml = lrg_webservices.search_by_lrg(args['lrgid'])
+		lrg_xml = webservices.search_by_lrg(args['lrgid'])
 		# Obtain the root from the XML string provided by the webservices
 		root = get_tree_and_root_string(lrg_xml)
 
