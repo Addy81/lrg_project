@@ -139,9 +139,11 @@ class LRGParserTests(TestCase):
 		self.assertEqual(arguments.get("lrgid"), " LRG_384")
 
 
-	def test_automated_main(self):
+	@patch('bedgen.write_bed_file', return_value=True)
+	def test_automated_main(self, write_bed_file):
 		"""Tests the lrgparser main() function using sufficient arguments
-		for automated BED file generation
+		for automated BED file generation. The writing of the physical file is
+		prevented using the @patch decorator to avoid unwanted file generation
 		"""
 		arguments_full = lrgp.arg_collection(["-f", "testfiles/LRG_384.xml", 
 											"-r", "GRCh37.p13", 
@@ -160,10 +162,14 @@ class LRGParserTests(TestCase):
 
 
 	@patch('ui.input', side_effect=["MYH7", "1", "1", "0", "y"])
+	@patch('bedgen.write_bed_file', return_value=True)
 	@patch('os.system', return_value="")
-	def test_nonautomated_main(self, input, system):
+	def test_nonautomated_main(self, input, write_bed_file, system):
 		"""Tests the lrgparser main() function using insufficient arguments
-		for automated BED file generation
+		for automated BED file generation. ui.input is patched to simulate
+		user input for gene name, genome selection, transcript selection,
+		flank size and intron inclusion. The writing of the physical file is
+		prevented using the @patch decorator to avoid unwanted file generation
 		"""
 		arguments = lrgp.arg_collection([])
 		self.assertEqual(lrgp.main(arguments), True)

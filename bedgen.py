@@ -51,7 +51,7 @@ def write_bed_file(filetowrite, bedheader, bedcontents):
 		bedheader (list): The header to write. List of strings
 		bedcontents (list): Nested list of rows [chromosome, start, end, label]
 	Returns:
-		Nothing
+		True if BED file written successfully
 	Raises:
 		SystemExit: If the file could not be written
 	"""
